@@ -5,6 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { UsersService } from '../services/users.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user-form',
@@ -13,6 +14,11 @@ import { UsersService } from '../services/users.service';
   styleUrl: './user-form.component.css'
 })
 export class UserFormComponent {
+  private readonly sanitizer = inject(DomSanitizer);
+  protected readonly spotifyPlaylistUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+    'https://open.spotify.com/embed/playlist/6IOJDEwrxWtqhVu6YN4POd?utm_source=generator'
+  );
+
   private readonly fb = inject(FormBuilder);
   private readonly usersService = inject(UsersService);
   private readonly destroyRef = inject(DestroyRef);
