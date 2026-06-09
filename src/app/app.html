@@ -1,1 +1,12 @@
 <router-outlet />
+
+<div class="fixed bottom-4 right-4 z-50 w-80 shadow-lg rounded-lg overflow-hidden bg-black">
+  <iframe
+    [src]="spotifyPlaylistUrl"
+    width="100%"
+    height="382"
+    frameborder="0"
+    allowfullscreen=""
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+  ></iframe>
+</div>
