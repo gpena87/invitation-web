@@ -27,7 +27,8 @@ export class UserFormComponent {
     lastName: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
     numberPhone: ['', [Validators.required, Validators.pattern(/^[0-9+\-\s]{7,15}$/)]],
-    restriccion: ['']
+    restriccion: [''],
+    confirmation: ['', Validators.required]
   });
 
   constructor() {
@@ -53,7 +54,8 @@ export class UserFormComponent {
     this.isSubmitting.set(true);
     this.successMessage.set(null);
     this.errorMessage.set(null);
-    const payload = this.userForm.getRawValue();
+    const { confirmation, ...rest } = this.userForm.getRawValue();
+    const payload = { ...rest, confirmation: confirmation === 'true' };
 
     this.usersService
       .createUser(payload)
@@ -65,7 +67,8 @@ export class UserFormComponent {
             lastName: '',
             email: '',
             numberPhone: '',
-            restriccion: ''
+            restriccion: '',
+            confirmation: ''
           }, { emitEvent: false });
           this.successMessage.set('Registro enviado correctamente.');
           this.isSuccessModalOpen.set(true);

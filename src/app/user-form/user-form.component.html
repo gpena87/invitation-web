@@ -83,6 +83,27 @@
         </fieldset>
 
         <fieldset class="fieldset">
+          <legend class="fieldset-legend">¿Confirmas tu asistencia?</legend>
+          <select
+            id="confirmation"
+            formControlName="confirmation"
+            class="select w-full"
+            [class.select-error]="userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid"
+          >
+            <option value="" disabled>Selecciona una opción</option>
+            <option value="true">Sí</option>
+            <option value="false">No</option>
+          </select>
+          <p
+            class="fieldset-label min-h-3"
+            [class.text-error]="userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid"
+            [class.invisible]="!(userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid)"
+          >
+            Selecciona una opcion.
+          </p>
+        </fieldset>
+
+        <fieldset class="fieldset">
           <legend class="fieldset-legend">Restriccion alimentaria <span class="text-base-content/40 font-normal">(opcional)</span></legend>
           <textarea
             id="restriccion"

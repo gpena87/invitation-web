@@ -9,6 +9,17 @@ label {
 }
 
 input,
+select {
+  width: 80%;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #ffffff;
+}
+
+input,
 textarea {
   width: 80%;
   border: 1px solid #cbd5e1;
