@@ -6,82 +6,72 @@
 
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate class="flex flex-col gap-4">
 
-        <!-- Nombre y Apellido en 2 columnas -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-          <div class="form-control">
-            <label class="label" for="name">
-              <span class="label-text font-semibold">Nombre</span>
-            </label>
-            <input
-              id="name"
-              type="text"
-              formControlName="name"
-              placeholder="Ej. Ana"
-              class="input input-bordered w-full"
-              [class.input-error]="userForm.controls.name.touched && userForm.controls.name.invalid"
-            />
-            <label class="label" *ngIf="userForm.controls.name.touched && userForm.controls.name.invalid">
-              <span class="label-text-alt text-error">Ingresa un nombre valido.</span>
-            </label>
-          </div>
-
-          <div class="form-control">
-            <label class="label" for="lastName">
-              <span class="label-text font-semibold">Apellido</span>
-            </label>
-            <input
-              id="lastName"
-              type="text"
-              formControlName="lastName"
-              placeholder="Ej. Perez"
-              class="input input-bordered w-full"
-              [class.input-error]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
-            />
-            <label class="label" *ngIf="userForm.controls.lastName.touched && userForm.controls.lastName.invalid">
-              <span class="label-text-alt text-error">Ingresa un apellido valido.</span>
-            </label>
-          </div>
-
+        <div class="form-control">
+          <label class="label" for="name">
+            <span class="label-text font-semibold">Nombre</span>
+          </label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="Ej. Ana"
+            class="input input-bordered w-full"
+            [class.input-error]="userForm.controls.name.touched && userForm.controls.name.invalid"
+          />
+          <label class="label" *ngIf="userForm.controls.name.touched && userForm.controls.name.invalid">
+            <span class="label-text-alt text-error">Ingresa un nombre valido.</span>
+          </label>
         </div>
 
-        <!-- Correo y Telefono en 2 columnas -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="form-control">
+          <label class="label" for="lastName">
+            <span class="label-text font-semibold">Apellido</span>
+          </label>
+          <input
+            id="lastName"
+            type="text"
+            formControlName="lastName"
+            placeholder="Ej. Perez"
+            class="input input-bordered w-full"
+            [class.input-error]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
+          />
+          <label class="label" *ngIf="userForm.controls.lastName.touched && userForm.controls.lastName.invalid">
+            <span class="label-text-alt text-error">Ingresa un apellido valido.</span>
+          </label>
+        </div>
 
-          <div class="form-control">
-            <label class="label" for="email">
-              <span class="label-text font-semibold">Correo</span>
-            </label>
-            <input
-              id="email"
-              type="email"
-              formControlName="email"
-              placeholder="correo@ejemplo.com"
-              class="input input-bordered w-full"
-              [class.input-error]="userForm.controls.email.touched && userForm.controls.email.invalid"
-            />
-            <label class="label" *ngIf="userForm.controls.email.touched && userForm.controls.email.invalid">
-              <span class="label-text-alt text-error">Ingresa un correo valido.</span>
-            </label>
-          </div>
+        <div class="form-control">
+          <label class="label" for="email">
+            <span class="label-text font-semibold">Correo</span>
+          </label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="correo@ejemplo.com"
+            class="input input-bordered w-full"
+            [class.input-error]="userForm.controls.email.touched && userForm.controls.email.invalid"
+          />
+          <label class="label" *ngIf="userForm.controls.email.touched && userForm.controls.email.invalid">
+            <span class="label-text-alt text-error">Ingresa un correo valido.</span>
+          </label>
+        </div>
 
-          <div class="form-control">
-            <label class="label" for="numberPhone">
-              <span class="label-text font-semibold">Telefono</span>
-            </label>
-            <input
-              id="numberPhone"
-              type="tel"
-              formControlName="numberPhone"
-              placeholder="999 999 999"
-              class="input input-bordered w-full"
-              [class.input-error]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
-            />
-            <label class="label" *ngIf="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid">
-              <span class="label-text-alt text-error">Ingresa un numero de telefono valido.</span>
-            </label>
-          </div>
-
+        <div class="form-control">
+          <label class="label" for="numberPhone">
+            <span class="label-text font-semibold">Telefono</span>
+          </label>
+          <input
+            id="numberPhone"
+            type="tel"
+            formControlName="numberPhone"
+            placeholder="999 999 999"
+            class="input input-bordered w-full"
+            [class.input-error]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
+          />
+          <label class="label" *ngIf="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid">
+            <span class="label-text-alt text-error">Ingresa un numero de telefono valido.</span>
+          </label>
         </div>
 
         <div class="form-control">
