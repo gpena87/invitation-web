@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { environment } from '../../environments/environment';
+
 export interface CreateUserRequest {
   name: string;
   lastName: string;
@@ -23,7 +25,7 @@ export interface User extends CreateUserRequest {
 })
 export class UsersService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = '/api/users';
+  private readonly apiUrl = `${environment.apiUrl}/users`;
 
   createUser(payload: CreateUserRequest): Observable<User> {
     return this.http.post<User>(this.apiUrl, payload);

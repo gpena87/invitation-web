@@ -55,6 +55,7 @@ export class UserFormComponent {
           });
         },
         error: (error: HttpErrorResponse) => {
+          console.log('error', error);
           if (error.status === 0) {
             this.errorMessage.set(
               'No se pudo conectar con la API. Si estas en desarrollo, inicia la app con ng serve para usar el proxy.'
