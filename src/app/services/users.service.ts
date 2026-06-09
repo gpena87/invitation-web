@@ -27,7 +27,9 @@ export class UsersService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/users`;
 
+
   createUser(payload: CreateUserRequest): Observable<User> {
+    console.log(this.apiUrl);
     return this.http.post<User>(this.apiUrl, payload);
   }
 
