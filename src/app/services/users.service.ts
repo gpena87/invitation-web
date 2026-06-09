@@ -23,7 +23,7 @@ export interface User extends CreateUserRequest {
 })
 export class UsersService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'https://invitation-api-production-565d.up.railway.app/api/users';
+  private readonly apiUrl = '/api/users';
 
   createUser(payload: CreateUserRequest): Observable<User> {
     return this.http.post<User>(this.apiUrl, payload);
