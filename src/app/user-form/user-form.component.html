@@ -87,12 +87,12 @@
           <select
             id="confirmation"
             formControlName="confirmation"
-            class="select w-full"
+            class="select w-full text-sm"
             [class.select-error]="userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid"
           >
-            <option value="" disabled>Selecciona una opción</option>
-            <option value="true">Sí</option>
-            <option value="false">No</option>
+            <option value="" disabled class="text-sm">Selecciona una opción</option>
+            <option value="true" class="text-sm">Sí</option>
+            <option value="false" class="text-sm">No</option>
           </select>
           <p
             class="fieldset-label min-h-3"
