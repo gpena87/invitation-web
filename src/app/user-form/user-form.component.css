@@ -2,22 +2,6 @@
   display: block;
 }
 
-h1 {
-  margin: 0;
-  font-size: 1.9rem;
-  color: #1f2937;
-}
-
-.subtitle {
-  margin: 0.5rem 0 1.25rem;
-  color: #475569;
-}
-
-form {
-  display: grid;
-  gap: 0.45rem;
-}
-
 label {
   margin-top: 0.6rem;
   font-weight: 600;
@@ -26,7 +10,7 @@ label {
 
 input,
 textarea {
-  width: 80%;
+  width: 50%;
   border: 1px solid #cbd5e1;
   border-radius: 12px;
   padding: 0.75rem;
