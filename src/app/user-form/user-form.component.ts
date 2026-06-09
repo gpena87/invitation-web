@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { UsersService } from '../services/users.service';
@@ -14,8 +15,10 @@ import { UsersService } from '../services/users.service';
 export class UserFormComponent {
   private readonly fb = inject(FormBuilder);
   private readonly usersService = inject(UsersService);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly isSubmitting = signal(false);
+  readonly isSuccessModalOpen = signal(false);
   readonly successMessage = signal<string | null>(null);
   readonly errorMessage = signal<string | null>(null);
 
@@ -26,6 +29,20 @@ export class UserFormComponent {
     numberPhone: ['', [Validators.required, Validators.pattern(/^[0-9+\-\s]{7,15}$/)]],
     restriccion: ['']
   });
+
+  constructor() {
+    this.userForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      if (this.successMessage()) {
+        this.successMessage.set(null);
+        this.isSuccessModalOpen.set(false);
+      }
+    });
+  }
+
+  closeSuccessPopup(): void {
+    this.isSuccessModalOpen.set(false);
+    this.successMessage.set(null);
+  }
 
   onSubmit(): void {
     if (this.userForm.invalid) {
@@ -43,14 +60,15 @@ export class UserFormComponent {
       .pipe(finalize(() => this.isSubmitting.set(false)))
       .subscribe({
         next: () => {
-          this.successMessage.set('Registro enviado correctamente.');
           this.userForm.reset({
             name: '',
             lastName: '',
             email: '',
             numberPhone: '',
             restriccion: ''
-          });
+          }, { emitEvent: false });
+          this.successMessage.set('Registro enviado correctamente.');
+          this.isSuccessModalOpen.set(true);
         },
         error: (error: HttpErrorResponse) => {
           console.log('error', error);

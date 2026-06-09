@@ -16,7 +16,11 @@
             class="input w-full"
             [class.input-error]="userForm.controls.name.touched && userForm.controls.name.invalid"
           />
-          <p class="fieldset-label text-error" *ngIf="userForm.controls.name.touched && userForm.controls.name.invalid">
+          <p
+            class="fieldset-label min-h-5"
+            [class.text-error]="userForm.controls.name.touched && userForm.controls.name.invalid"
+            [class.invisible]="!(userForm.controls.name.touched && userForm.controls.name.invalid)"
+          >
             Ingresa un nombre valido.
           </p>
         </fieldset>
@@ -31,7 +35,11 @@
             class="input w-full"
             [class.input-error]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
           />
-          <p class="fieldset-label text-error" *ngIf="userForm.controls.lastName.touched && userForm.controls.lastName.invalid">
+          <p
+            class="fieldset-label min-h-5"
+            [class.text-error]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
+            [class.invisible]="!(userForm.controls.lastName.touched && userForm.controls.lastName.invalid)"
+          >
             Ingresa un apellido valido.
           </p>
         </fieldset>
@@ -46,7 +54,11 @@
             class="input w-full"
             [class.input-error]="userForm.controls.email.touched && userForm.controls.email.invalid"
           />
-          <p class="fieldset-label text-error" *ngIf="userForm.controls.email.touched && userForm.controls.email.invalid">
+          <p
+            class="fieldset-label min-h-5"
+            [class.text-error]="userForm.controls.email.touched && userForm.controls.email.invalid"
+            [class.invisible]="!(userForm.controls.email.touched && userForm.controls.email.invalid)"
+          >
             Ingresa un correo valido.
           </p>
         </fieldset>
@@ -61,7 +73,11 @@
             class="input w-full"
             [class.input-error]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
           />
-          <p class="fieldset-label text-error" *ngIf="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid">
+          <p
+            class="fieldset-label min-h-4"
+            [class.text-error]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
+            [class.invisible]="!(userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid)"
+          >
             Ingresa un numero de telefono valido.
           </p>
         </fieldset>
@@ -88,14 +104,22 @@
 
       </form>
 
-      <div *ngIf="successMessage()" class="alert alert-success mt-4">
-        <span>{{ successMessage() }}</span>
-      </div>
-
       <div *ngIf="errorMessage()" class="alert alert-error mt-4">
         <span>{{ errorMessage() }}</span>
       </div>
-
     </div>
   </div>
 </div>
+
+<dialog class="modal" [open]="isSuccessModalOpen()">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">Registro completado</h3>
+    <p class="py-3">{{ successMessage() }}</p>
+    <div class="modal-action">
+      <button type="button" class="btn btn-success" (click)="closeSuccessPopup()">Aceptar</button>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button type="button" (click)="closeSuccessPopup()">close</button>
+  </form>
+</dialog>
