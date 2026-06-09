@@ -4,7 +4,7 @@
       <h2 class="card-title text-2xl font-bold mb-1">Confirma tu asistencia</h2>
       <p class="text-base-content/60 mb-4">Completa tus datos para registrar tu respuesta.</p>
 
-      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate class="flex flex-col gap-2">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate class="flex flex-col gap-0">
 
         <fieldset class="fieldset">
           <legend class="fieldset-legend">Nombre</legend>
@@ -17,7 +17,7 @@
             [class.input-error]="userForm.controls.name.touched && userForm.controls.name.invalid"
           />
           <p
-            class="fieldset-label min-h-5"
+            class="fieldset-label min-h-1"
             [class.text-error]="userForm.controls.name.touched && userForm.controls.name.invalid"
             [class.invisible]="!(userForm.controls.name.touched && userForm.controls.name.invalid)"
           >
@@ -36,7 +36,7 @@
             [class.input-error]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
           />
           <p
-            class="fieldset-label min-h-5"
+            class="fieldset-label min-h-3"
             [class.text-error]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
             [class.invisible]="!(userForm.controls.lastName.touched && userForm.controls.lastName.invalid)"
           >
@@ -55,7 +55,7 @@
             [class.input-error]="userForm.controls.email.touched && userForm.controls.email.invalid"
           />
           <p
-            class="fieldset-label min-h-5"
+            class="fieldset-label min-h-3"
             [class.text-error]="userForm.controls.email.touched && userForm.controls.email.invalid"
             [class.invisible]="!(userForm.controls.email.touched && userForm.controls.email.invalid)"
           >
@@ -74,7 +74,7 @@
             [class.input-error]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
           />
           <p
-            class="fieldset-label min-h-4"
+            class="fieldset-label min-h-3"
             [class.text-error]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
             [class.invisible]="!(userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid)"
           >
