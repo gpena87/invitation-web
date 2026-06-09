@@ -3,7 +3,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
-
 import { UsersService } from '../services/users.service';
 
 @Component({
@@ -37,7 +36,6 @@ export class UserFormComponent {
     this.isSubmitting.set(true);
     this.successMessage.set(null);
     this.errorMessage.set(null);
-
     const payload = this.userForm.getRawValue();
 
     this.usersService
@@ -58,7 +56,7 @@ export class UserFormComponent {
           console.log('error', error);
           if (error.status === 0) {
             this.errorMessage.set(
-              'No se pudo conectar con la API. Si estas en desarrollo, inicia la app con ng serve para usar el proxy.'
+              'Error intenta más tarde'
             );
             return;
           }

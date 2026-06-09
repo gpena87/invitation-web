@@ -1,45 +1,112 @@
-<section class="form-shell">
-  <h1>Confirma tu asistencia</h1>
-  <p class="subtitle">Completa tus datos para registrar tu respuesta.</p>
+<div class="min-h-screen bg-base-200 flex items-center justify-center p-4">
+  <div class="card w-full max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title text-2xl font-bold mb-1">Confirma tu asistencia</h2>
+      <p class="text-base-content/60 mb-4">Completa tus datos para registrar tu respuesta.</p>
 
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
-    <label for="name">Nombre</label>
-    <input id="name" type="text" formControlName="name" placeholder="Ej. Ana" />
-    <small *ngIf="userForm.controls.name.touched && userForm.controls.name.invalid">
-      Ingresa un nombre valido.
-    </small>
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate class="flex flex-col gap-3">
 
-    <label for="lastName">Apellido</label>
-    <input id="lastName" type="text" formControlName="lastName" placeholder="Ej. Perez" />
-    <small *ngIf="userForm.controls.lastName.touched && userForm.controls.lastName.invalid">
-      Ingresa un apellido valido.
-    </small>
+        <div class="form-control">
+          <label class="label" for="name">
+            <span class="label-text font-semibold">Nombre</span>
+          </label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="Ej. Ana"
+            class="input input-bordered w-full"
+            [class.input-error]="userForm.controls.name.touched && userForm.controls.name.invalid"
+          />
+          <label class="label" *ngIf="userForm.controls.name.touched && userForm.controls.name.invalid">
+            <span class="label-text-alt text-error">Ingresa un nombre valido.</span>
+          </label>
+        </div>
 
-    <label for="email">Correo</label>
-    <input id="email" type="email" formControlName="email" placeholder="correo@ejemplo.com" />
-    <small *ngIf="userForm.controls.email.touched && userForm.controls.email.invalid">
-      Ingresa un correo valido.
-    </small>
+        <div class="form-control">
+          <label class="label" for="lastName">
+            <span class="label-text font-semibold">Apellido</span>
+          </label>
+          <input
+            id="lastName"
+            type="text"
+            formControlName="lastName"
+            placeholder="Ej. Perez"
+            class="input input-bordered w-full"
+            [class.input-error]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
+          />
+          <label class="label" *ngIf="userForm.controls.lastName.touched && userForm.controls.lastName.invalid">
+            <span class="label-text-alt text-error">Ingresa un apellido valido.</span>
+          </label>
+        </div>
 
-    <label for="numberPhone">Telefono</label>
-    <input id="numberPhone" type="tel" formControlName="numberPhone" placeholder="999 999 999" />
-    <small *ngIf="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid">
-      Ingresa un numero de telefono valido.
-    </small>
+        <div class="form-control">
+          <label class="label" for="email">
+            <span class="label-text font-semibold">Correo</span>
+          </label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="correo@ejemplo.com"
+            class="input input-bordered w-full"
+            [class.input-error]="userForm.controls.email.touched && userForm.controls.email.invalid"
+          />
+          <label class="label" *ngIf="userForm.controls.email.touched && userForm.controls.email.invalid">
+            <span class="label-text-alt text-error">Ingresa un correo valido.</span>
+          </label>
+        </div>
 
-    <label for="restriccion">Restriccion alimentaria (opcional)</label>
-    <textarea
-      id="restriccion"
-      rows="3"
-      formControlName="restriccion"
-      placeholder="Ej. vegetariano, sin gluten"
-    ></textarea>
+        <div class="form-control">
+          <label class="label" for="numberPhone">
+            <span class="label-text font-semibold">Telefono</span>
+          </label>
+          <input
+            id="numberPhone"
+            type="tel"
+            formControlName="numberPhone"
+            placeholder="999 999 999"
+            class="input input-bordered w-full"
+            [class.input-error]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
+          />
+          <label class="label" *ngIf="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid">
+            <span class="label-text-alt text-error">Ingresa un numero de telefono valido.</span>
+          </label>
+        </div>
 
-    <button type="submit" [disabled]="userForm.invalid || isSubmitting()">
-      {{ isSubmitting() ? 'Enviando...' : 'Enviar' }}
-    </button>
-  </form>
+        <div class="form-control">
+          <label class="label" for="restriccion">
+            <span class="label-text font-semibold">Restriccion alimentaria</span>
+            <span class="label-text-alt">opcional</span>
+          </label>
+          <textarea
+            id="restriccion"
+            rows="3"
+            formControlName="restriccion"
+            placeholder="Ej. vegetariano, sin gluten"
+            class="textarea textarea-bordered w-full"
+          ></textarea>
+        </div>
 
-  <p class="success" *ngIf="successMessage()">{{ successMessage() }}</p>
-  <p class="error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
-</section>
+        <button
+          type="submit"
+          class="btn btn-primary w-full mt-2"
+          [disabled]="userForm.invalid || isSubmitting()"
+        >
+          <span *ngIf="isSubmitting()" class="loading loading-spinner loading-sm"></span>
+          {{ isSubmitting() ? 'Enviando...' : 'Enviar confirmacion' }}
+        </button>
+
+      </form>
+
+      <div *ngIf="successMessage()" class="alert alert-success mt-4">
+        <span>{{ successMessage() }}</span>
+      </div>
+
+      <div *ngIf="errorMessage()" class="alert alert-error mt-4">
+        <span>{{ errorMessage() }}</span>
+      </div>
+
+    </div>
+  </div>
+</div>

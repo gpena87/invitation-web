@@ -29,7 +29,6 @@ export class UsersService {
 
 
   createUser(payload: CreateUserRequest): Observable<User> {
-    console.log(this.apiUrl);
     return this.http.post<User>(this.apiUrl, payload);
   }
 
