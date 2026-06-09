@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://invitation-api-production-565d.up.railway.app",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
