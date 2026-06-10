@@ -3,6 +3,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user-music',
+  standalone: true,
   imports: [],
   templateUrl: './user-music.component.html',
   styleUrls: ['./user-music.component.css'],

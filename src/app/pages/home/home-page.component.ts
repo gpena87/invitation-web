@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UserFormComponent } from "../../components/user-form/user-form.component";
 import { UserMusicComponent } from "../../components/user-music/user-music.component";
+import { UserFormComponent } from '../../components/user-form/user-form.component';
 
 @Component({
   selector: 'app-home',
-  imports: [UserFormComponent, UserMusicComponent],
+  standalone: true,
   templateUrl: './home-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [UserMusicComponent, UserFormComponent],
 })
 export default class HomePage {}
