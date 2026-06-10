@@ -5,7 +5,7 @@ import { UserMusicComponent } from "../../components/user-music/user-music.compo
 @Component({
   selector: 'app-home',
   imports: [UserFormComponent, UserMusicComponent],
-  templateUrl: './home.component.html',
+  templateUrl: './home-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Home {}
+export default class HomePage {}

@@ -104,14 +104,25 @@
         </fieldset>
 
         <fieldset class="fieldset">
-          <legend class="fieldset-legend">Restriccion alimentaria <span class="text-base-content/40 font-normal">(opcional)</span></legend>
-          <textarea
+          <legend class="fieldset-legend">¿Restriccion alimentaria?</legend>
+          <select
             id="restriccion"
-            rows="3"
             formControlName="restriccion"
-            placeholder="Ej. vegetariano, sin gluten"
-            class="textarea w-full"
-          ></textarea>
+            class="select w-full text-sm"
+            [class.select-error]="userForm.controls.restriccion.touched && userForm.controls.restriccion.invalid"
+          >
+            <option value="" disabled class="text-sm">Selecciona una opción</option>
+            <!-- <option value="true" class="text-sm">Sí</option> -->
+            <option value="No" class="text-sm">No</option>
+            <option value="Vegetariano" class="text-sm">Vegetariano</option>
+          </select>
+          <p
+            class="fieldset-label min-h-3"
+            [class.text-error]="userForm.controls.restriccion.touched && userForm.controls.restriccion.invalid"
+            [class.invisible]="!(userForm.controls.restriccion.touched && userForm.controls.restriccion.invalid)"
+          >
+            Selecciona una opcion.
+          </p>
         </fieldset>
 
         <button
