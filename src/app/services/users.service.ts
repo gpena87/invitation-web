@@ -9,6 +9,7 @@ export interface CreateUserRequest {
   email: string;
   numberPhone: string;
   restriccion: string;
+  confirmation: boolean;
 }
 
 export interface User extends CreateUserRequest {

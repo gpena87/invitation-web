@@ -1,24 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { UsersService } from '../../services/users.service';
-// import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user-form',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './user-form.component.html',
-  styleUrls: ['./user-form.component.css']
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserFormComponent {
-  // private readonly sanitizer = inject(DomSanitizer);
-  // protected readonly spotifyPlaylistUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-  //   'https://open.spotify.com/embed/playlist/6IOJDEwrxWtqhVu6YN4POd?utm_source=generator'
-  // );
-
   private readonly fb = inject(FormBuilder);
   private readonly usersService = inject(UsersService);
   private readonly destroyRef = inject(DestroyRef);
@@ -80,7 +74,6 @@ export class UserFormComponent {
           this.isSuccessModalOpen.set(true);
         },
         error: (error: HttpErrorResponse) => {
-          console.log('error', error);
           if (error.status === 0) {
             this.errorMessage.set(
               'Error intenta más tarde'

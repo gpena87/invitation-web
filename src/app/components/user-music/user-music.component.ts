@@ -6,7 +6,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   standalone: true,
   imports: [],
   templateUrl: './user-music.component.html',
-  styleUrls: ['./user-music.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserMusicComponent {
