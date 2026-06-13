@@ -14,10 +14,18 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-RUN npm install -g serve
+COPY package*.json ./
+
+RUN npm ci --omit=dev
 
 COPY --from=builder /app/dist/api-mongo-app ./dist/api-mongo-app
 
+COPY start.sh ./start.sh
+
+RUN chmod +x ./start.sh
+
+ENV NODE_ENV=production
+
 EXPOSE 3000
 
-CMD ["serve", "-s", "dist/api-mongo-app/browser", "-l", "3000"]
+CMD ["./start.sh"]
