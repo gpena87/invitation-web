@@ -7,5 +7,12 @@ import { Component, signal } from '@angular/core';
 })
 export class GiftComponent {
   title = signal('¿Quieres hacernos un regalo?');
-  subtitle = signal('Tu presencia es el mejor regalo que podríamos pedir. Sin embargo, si deseas contribuir a nuestro fondo para la luna de miel, aquí tienes algunas opciones que hemos preparado con cariño. ¡Gracias por ser parte de este momento tan especial en nuestras vidas!');
+  subtitle = signal('Tu presencia es el mejor regalo que podríamos pedir. Sin embargo, si deseas contribuir a nuestro fondo para la luna de miel, aquí tienes nuestras opciones de transferencia.');
+
+  bankAccount = signal({
+    bank: 'Banco Estado',
+    accountHolder: 'Camila Gonzalez',
+    accountNumber: '12345678-9',
+    email: 'camilagonzalez@email.com'
+  });
 }
