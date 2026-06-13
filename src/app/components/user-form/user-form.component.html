@@ -133,6 +133,25 @@
           />
         </fieldset>
 
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">Mensaje</legend>
+          <input
+            id="message"
+            type="text"
+            formControlName="message"
+            placeholder="Escribe tu mensaje..."
+            class="input w-full"
+            [class.input-error]="userForm.controls.message.touched && userForm.controls.message.invalid"
+          />
+          <p
+            class="fieldset-label min-h-3"
+            [class.text-error]="userForm.controls.message.touched && userForm.controls.message.invalid"
+            [class.invisible]="!(userForm.controls.message.touched && userForm.controls.message.invalid)"
+          >
+            Ingresa un mensaje valido.
+          </p>
+        </fieldset>
+
         <button
           type="submit"
           class="btn btn-primary w-full mt-2"

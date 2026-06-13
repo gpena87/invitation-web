@@ -30,7 +30,8 @@ export class UserFormComponent {
     numberPhone: ['', [Validators.required, Validators.pattern(/^[0-9+\-\s]{7,15}$/)]],
     restriccion: [''],
     restriccionOtro: [''],
-    confirmation: ['', Validators.required]
+    confirmation: ['', Validators.required],
+    message: ['']
   });
 
   constructor() {
@@ -76,7 +77,8 @@ export class UserFormComponent {
             numberPhone: '',
             restriccion: '',
             restriccionOtro: '',
-            confirmation: ''
+            confirmation: '',
+            message: ''
           }, { emitEvent: false });
           this.isOtroSelected.set(false);
           this.successMessage.set('Registro enviado correctamente.');
