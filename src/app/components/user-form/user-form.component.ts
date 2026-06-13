@@ -21,6 +21,7 @@ export class UserFormComponent {
   readonly isSuccessModalOpen = signal(false);
   readonly successMessage = signal<string | null>(null);
   readonly errorMessage = signal<string | null>(null);
+  readonly isOtroSelected = signal(false);
 
   readonly userForm = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
@@ -28,6 +29,7 @@ export class UserFormComponent {
     email: ['', [Validators.required, Validators.email]],
     numberPhone: ['', [Validators.required, Validators.pattern(/^[0-9+\-\s]{7,15}$/)]],
     restriccion: [''],
+    restriccionOtro: [''],
     confirmation: ['', Validators.required]
   });
 
@@ -38,6 +40,10 @@ export class UserFormComponent {
         this.isSuccessModalOpen.set(false);
       }
     });
+
+    this.userForm.controls.restriccion.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(value => this.isOtroSelected.set(value === 'Otro'));
   }
 
   closeSuccessPopup(): void {
@@ -54,8 +60,9 @@ export class UserFormComponent {
     this.isSubmitting.set(true);
     this.successMessage.set(null);
     this.errorMessage.set(null);
-    const { confirmation, ...rest } = this.userForm.getRawValue();
-    const payload = { ...rest, confirmation: confirmation === 'true' };
+    const { confirmation, restriccionOtro, ...rest } = this.userForm.getRawValue();
+    const restriccion = rest.restriccion === 'Otro' ? (restriccionOtro.trim() || 'Otro') : rest.restriccion;
+    const payload = { ...rest, restriccion, confirmation: confirmation === 'true' };
 
     this.usersService
       .createUser(payload)
@@ -68,8 +75,10 @@ export class UserFormComponent {
             email: '',
             numberPhone: '',
             restriccion: '',
+            restriccionOtro: '',
             confirmation: ''
           }, { emitEvent: false });
+          this.isOtroSelected.set(false);
           this.successMessage.set('Registro enviado correctamente.');
           this.isSuccessModalOpen.set(true);
         },

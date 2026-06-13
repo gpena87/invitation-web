@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "serve -s dist/api-mongo-app/browser",
+    "start": "ng serve",
+    "start:dist": "serve -s dist/api-mongo-app/browser",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
