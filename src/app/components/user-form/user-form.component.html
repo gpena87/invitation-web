@@ -1,7 +1,7 @@
 <section id="confirmacion" class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
     <div class="rounded-3xl border border-stone-200 bg-white p-8 shadow-sm">
-      <h2 class="card-title text-2xl font-bold mb-1">Confirma tu asistencia</h2>
-      <p class="text-base-content/60 mb-4">Completa tus datos para registrar tu respuesta.</p>
+      <h2 class="card-title text-2xl font-bold mb-1">{{ title() }}</h2>
+      <p class="text-base-content/60 mb-4">{{ subtitle() }}</p>
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate >
         <fieldset class="fieldset">
           <legend class="fieldset-legend">Nombre</legend>
@@ -39,6 +39,28 @@
             Ingresa un apellido valido.
           </p>
         </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">¿Confirmas tu asistencia?</legend>
+          <select
+            id="confirmation"
+            formControlName="confirmation"
+            class="select w-full text-sm"
+            [class.select-error]="userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid"
+          >
+            <option value="" disabled class="text-sm">Selecciona una opción</option>
+            <option value="true" class="text-sm">Sí</option>
+            <option value="false" class="text-sm">No</option>
+          </select>
+          <p
+            class="fieldset-label min-h-3"
+            [class.text-error]="userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid"
+            [class.invisible]="!(userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid)"
+          >
+            Selecciona una opcion.
+          </p>
+        </fieldset>
+
         <fieldset class="fieldset">
           <legend class="fieldset-legend">Correo</legend>
           <input
@@ -74,27 +96,6 @@
             [class.invisible]="!(userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid)"
           >
             Ingresa un numero de telefono valido.
-          </p>
-        </fieldset>
-
-        <fieldset class="fieldset">
-          <legend class="fieldset-legend">¿Confirmas tu asistencia?</legend>
-          <select
-            id="confirmation"
-            formControlName="confirmation"
-            class="select w-full text-sm"
-            [class.select-error]="userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid"
-          >
-            <option value="" disabled class="text-sm">Selecciona una opción</option>
-            <option value="true" class="text-sm">Sí</option>
-            <option value="false" class="text-sm">No</option>
-          </select>
-          <p
-            class="fieldset-label min-h-3"
-            [class.text-error]="userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid"
-            [class.invisible]="!(userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid)"
-          >
-            Selecciona una opcion.
           </p>
         </fieldset>
 

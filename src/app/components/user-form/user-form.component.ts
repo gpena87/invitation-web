@@ -13,6 +13,9 @@ import { UsersService } from '../../services/users.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserFormComponent {
+  title = signal('Confirma tu asistencia');
+  subtitle = signal('¡Nos encantaría contar con tu presencia! Por favor, confirma tu asistencia para ayudarnos a planificar mejor el evento.');
+
   private readonly fb = inject(FormBuilder);
   private readonly usersService = inject(UsersService);
   private readonly destroyRef = inject(DestroyRef);
@@ -42,9 +45,15 @@ export class UserFormComponent {
       }
     });
 
+    this.userForm.controls.confirmation.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(value => this.toggleAttendanceDependentFields(value === 'false'));
+
     this.userForm.controls.restriccion.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(value => this.isOtroSelected.set(value === 'Otro'));
+      .subscribe(value => this.isOtroSelected.set(value === 'Otro' && !this.userForm.controls.restriccion.disabled));
+
+    this.toggleAttendanceDependentFields(this.userForm.controls.confirmation.value === 'false');
   }
 
   closeSuccessPopup(): void {
@@ -62,8 +71,18 @@ export class UserFormComponent {
     this.successMessage.set(null);
     this.errorMessage.set(null);
     const { confirmation, restriccionOtro, ...rest } = this.userForm.getRawValue();
-    const restriccion = rest.restriccion === 'Otro' ? (restriccionOtro.trim() || 'Otro') : rest.restriccion;
-    const payload = { ...rest, restriccion, confirmation: confirmation === 'true' };
+    const isAttending = confirmation === 'true';
+    const restriccion = isAttending
+      ? (rest.restriccion === 'Otro' ? (restriccionOtro.trim() || 'Otro') : rest.restriccion)
+      : '';
+    const payload = {
+      ...rest,
+      email: isAttending ? rest.email : '',
+      numberPhone: isAttending ? rest.numberPhone : '',
+      message: isAttending ? rest.message : '',
+      restriccion,
+      confirmation: isAttending
+    };
 
     this.usersService
       .createUser(payload)
@@ -80,6 +99,7 @@ export class UserFormComponent {
             confirmation: '',
             message: ''
           }, { emitEvent: false });
+          this.toggleAttendanceDependentFields(false);
           this.isOtroSelected.set(false);
           this.successMessage.set('Registro enviado correctamente.');
           this.isSuccessModalOpen.set(true);
@@ -100,5 +120,25 @@ export class UserFormComponent {
           this.errorMessage.set(apiMessage ?? 'No se pudo enviar el formulario. Intentalo nuevamente.');
         }
       });
+  }
+
+  private toggleAttendanceDependentFields(disableFields: boolean): void {
+    const controls = [
+      this.userForm.controls.email,
+      this.userForm.controls.numberPhone,
+      this.userForm.controls.restriccion,
+      this.userForm.controls.restriccionOtro,
+      this.userForm.controls.message
+    ];
+
+    controls.forEach(control => {
+      if (disableFields) {
+        control.disable({ emitEvent: false });
+      } else {
+        control.enable({ emitEvent: false });
+      }
+    });
+
+    this.isOtroSelected.set(!disableFields && this.userForm.controls.restriccion.value === 'Otro');
   }
 }
