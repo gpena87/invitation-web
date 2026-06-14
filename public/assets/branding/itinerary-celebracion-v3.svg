@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="t d">
-  <title id="t">Itinerario celebracion v3</title>
-  <desc id="d">Ilustracion minimal de fiesta y baile</desc>
-  <circle cx="535" cy="295" r="36" fill="#8c7665"/>
-  <circle cx="665" cy="295" r="36" fill="#8c7665"/>
-  <path d="M470 420c30-75 230-75 260 0" fill="none" stroke="#c2a79a" stroke-width="16" stroke-linecap="round"/>
-  <path d="M450 515h300" stroke="#8c7665" stroke-width="12" stroke-linecap="round"/>
-</svg>

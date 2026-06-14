@@ -9,13 +9,13 @@ import { StartComponent } from "../../components/start/start.component";
 import { ItineraryComponent } from '../../components/itinerary/itinerary.component';
 import { DressCodeComponent } from '../../components/dress-code/dress-code.component';
 import { SectionDividerComponent } from "../../components/section-divider/section-divider.component";
+import { GalleryComponent } from "../../components/gallery/gallery.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [UserMusicComponent, UserFormComponent, HeaderComponent, GiftComponent, CountdownComponent, MapsComponent, StartComponent, ItineraryComponent, DressCodeComponent, SectionDividerComponent],
+  imports: [UserMusicComponent, UserFormComponent, HeaderComponent, GiftComponent, CountdownComponent, MapsComponent, StartComponent, ItineraryComponent, DressCodeComponent, SectionDividerComponent, GalleryComponent],
 })
 export default class HomePage {}

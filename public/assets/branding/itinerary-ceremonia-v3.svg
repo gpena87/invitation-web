@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="t d">
-  <title id="t">Itinerario ceremonia v3</title>
-  <desc id="d">Ilustracion minimal de altar floral</desc>
-  <path d="M430 500h340" stroke="#c2a79a" stroke-width="15" stroke-linecap="round"/>
-  <path d="M515 490v-180M685 490v-180" stroke="#8c7665" stroke-width="15" stroke-linecap="round"/>
-  <path d="M560 310h80" stroke="#8c7665" stroke-width="15" stroke-linecap="round"/>
-  <circle cx="515" cy="300" r="20" fill="#c2a79a"/>
-  <circle cx="685" cy="300" r="20" fill="#c2a79a"/>
-</svg>

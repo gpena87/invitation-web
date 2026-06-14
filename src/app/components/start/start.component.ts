@@ -4,7 +4,6 @@ import { Component, signal } from '@angular/core';
   selector: 'app-start',
   imports: [],
   templateUrl: './start.component.html',
-  styleUrl: './start.component.css',
 })
 export class StartComponent {
   title = signal('Invitacion de boda');

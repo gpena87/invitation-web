@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="t d">
-  <title id="t">Dress code ellas v3</title>
-  <desc id="d">Ilustracion minimal de vestido fluido</desc>
-  <circle cx="600" cy="210" r="34" fill="#c2a79a"/>
-  <path d="M600 255l-175 280h350z" fill="#8c7665"/>
-  <path d="M540 340h120M520 395h160M500 455h200" stroke="#f6efe8" stroke-width="12" stroke-linecap="round"/>
-</svg>

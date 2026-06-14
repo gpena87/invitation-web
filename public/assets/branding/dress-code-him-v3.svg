@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="t d">
-  <title id="t">Dress code ellos v3</title>
-  <desc id="d">Ilustracion minimal de blazer y corbata</desc>
-  <path d="M470 270l130 150 130-150" fill="none" stroke="#8c7665" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M520 500V315h160v185" fill="none" stroke="#4d4138" stroke-width="18" stroke-linecap="round"/>
-  <path d="M600 240v65" stroke="#c2a79a" stroke-width="14" stroke-linecap="round"/>
-  <circle cx="600" cy="205" r="34" fill="#c2a79a"/>
-</svg>
