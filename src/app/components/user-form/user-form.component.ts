@@ -34,7 +34,7 @@ export class UserFormComponent {
     restriccion: [''],
     restriccionOtro: [''],
     confirmation: ['', Validators.required],
-    message: ['']
+    message: ['', [Validators.maxLength(200)]]
   });
 
   constructor() {
