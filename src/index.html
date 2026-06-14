@@ -11,12 +11,29 @@
       height: 100%;
     }
     body {
+      position: relative;
       min-height: 100vh;
       background-color: #efe7de;
     }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url('/assets/branding/fondo02-cel-scaled.jpg');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      z-index: 0;
+      pointer-events: none;
+    }
+    body > app-root {
+      position: relative;
+      z-index: 1;
+      display: block;
+    }
   </style>
 </head>
-<body class="min-h-screen bg-[#efe7de] font-[Nunito_Sans,Segoe_UI,Tahoma,Geneva,Verdana,sans-serif] text-[#5a5047]">
+<body class="min-h-screen w-full font-[Nunito_Sans,Segoe_UI,Tahoma,Geneva,Verdana,sans-serif] text-[#5a5047]">
   <app-root></app-root>
 </body>
 </html>
