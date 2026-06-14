@@ -1,0 +1,6 @@
+.start-bg {
+  background-image: url('/assets/branding/fondo01-cel-scaled.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}

@@ -1,14 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="t d">
   <title id="t">Itinerario ceremonia v3</title>
   <desc id="d">Ilustracion minimal de altar floral</desc>
-  <defs>
-    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0%" stop-color="#f6f1eb"/>
-      <stop offset="100%" stop-color="#e6dace"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="700" fill="url(#bg)"/>
-  <circle cx="600" cy="320" r="190" fill="#fff" opacity="0.66"/>
   <path d="M430 500h340" stroke="#c2a79a" stroke-width="15" stroke-linecap="round"/>
   <path d="M515 490v-180M685 490v-180" stroke="#8c7665" stroke-width="15" stroke-linecap="round"/>
   <path d="M560 310h80" stroke="#8c7665" stroke-width="15" stroke-linecap="round"/>

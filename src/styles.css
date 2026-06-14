@@ -2,3 +2,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 @plugin "daisyui";
+
+html,
+body {
+	min-height: 100%;
+}
+
+body {
+	background-image: url('/assets/branding/fondo02-cel-scaled.jpg');
+	background-size: 100% auto;
+	background-position: center top;
+	background-repeat: repeat-y;
+	background-attachment: scroll;
+}
