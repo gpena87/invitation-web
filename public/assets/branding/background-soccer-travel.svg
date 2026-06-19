@@ -1,0 +1,42 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1920" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FBFAF8"/>
+      <stop offset="0.52" stop-color="#F6F2ED"/>
+      <stop offset="1" stop-color="#EFE8E0"/>
+    </linearGradient>
+
+    <pattern id="soccerTravelPattern" width="320" height="320" patternUnits="userSpaceOnUse">
+      <circle cx="68" cy="86" r="26" fill="#FFFFFF" fill-opacity="0.7" stroke="#C4A89F" stroke-opacity="0.5" stroke-width="2"/>
+      <polygon points="68,72 78,79 74,91 62,91 58,79" fill="#B89387" fill-opacity="0.75"/>
+      <polygon points="53,82 59,86 57,93 50,93 48,86" fill="#B89387" fill-opacity="0.55"/>
+      <polygon points="83,82 89,86 87,93 80,93 78,86" fill="#B89387" fill-opacity="0.55"/>
+      <polygon points="61,95 67,99 65,106 58,106 56,99" fill="#B89387" fill-opacity="0.55"/>
+      <polygon points="75,95 81,99 79,106 72,106 70,99" fill="#B89387" fill-opacity="0.55"/>
+
+      <path d="M204 58L240 78L204 98L212 78L204 58Z" fill="#A67E70" fill-opacity="0.28"/>
+      <rect x="188" y="74" width="20" height="8" rx="4" fill="#A67E70" fill-opacity="0.28"/>
+
+      <rect x="236" y="212" width="36" height="28" rx="5" fill="#C4A89F" fill-opacity="0.3"/>
+      <rect x="246" y="204" width="16" height="9" rx="3" stroke="#A67E70" stroke-opacity="0.45" stroke-width="2"/>
+
+      <path d="M78 234C90 220 110 220 122 234" stroke="#B89387" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="100" cy="248" r="11" fill="#FFFFFF" fill-opacity="0.6" stroke="#C4A89F" stroke-opacity="0.45" stroke-width="2"/>
+      <path d="M97 246C99 243 104 243 106 246" stroke="#A67E70" stroke-opacity="0.45" stroke-width="2" stroke-linecap="round"/>
+      <path d="M97 251C99 254 104 254 106 251" stroke="#A67E70" stroke-opacity="0.45" stroke-width="2" stroke-linecap="round"/>
+
+      <path d="M256 124C266 108 286 108 296 124" stroke="#C4A89F" stroke-opacity="0.4" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="276" cy="140" r="12" fill="#FFFFFF" fill-opacity="0.55" stroke="#B89387" stroke-opacity="0.4" stroke-width="2"/>
+      <rect x="272" y="136" width="8" height="8" rx="2" fill="#B89387" fill-opacity="0.45"/>
+
+      <circle cx="150" cy="150" r="2.5" fill="#B89387" fill-opacity="0.45"/>
+      <circle cx="166" cy="162" r="2" fill="#C4A89F" fill-opacity="0.5"/>
+      <circle cx="132" cy="168" r="2" fill="#C4A89F" fill-opacity="0.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#soccerTravelPattern)"/>
+
+  <rect width="1920" height="1080" fill="white" fill-opacity="0.08"/>
+</svg>

@@ -1,0 +1,65 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1920" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FDFBF7"/>
+      <stop offset="0.5" stop-color="#F4ECE3"/>
+      <stop offset="1" stop-color="#EBDDCF"/>
+    </linearGradient>
+
+    <pattern id="travelFootball" width="420" height="320" patternUnits="userSpaceOnUse">
+      <g opacity="0.36">
+        <circle cx="78" cy="88" r="34" fill="#FFFFFF" stroke="#9E786A" stroke-width="2"/>
+        <path d="M55 88C63 77 73 73 83 74" stroke="#9E786A" stroke-width="2" stroke-linecap="round"/>
+        <path d="M83 74C96 75 105 84 106 97" stroke="#9E786A" stroke-width="2" stroke-linecap="round"/>
+        <path d="M106 97C97 105 86 108 75 106" stroke="#9E786A" stroke-width="2" stroke-linecap="round"/>
+        <path d="M75 106C64 104 57 97 55 88" stroke="#9E786A" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="80" cy="89" r="6" fill="#9E786A" fill-opacity="0.85"/>
+        <path d="M68 82L92 96" stroke="#9E786A" stroke-opacity="0.65" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M70 100L92 82" stroke="#9E786A" stroke-opacity="0.65" stroke-width="1.6" stroke-linecap="round"/>
+      </g>
+
+      <g opacity="0.3">
+        <path d="M266 72L306 94L266 116L275 94L266 72Z" fill="#B38F7F"/>
+        <rect x="249" y="90" width="24" height="8" rx="4" fill="#B38F7F"/>
+      </g>
+
+      <g opacity="0.32">
+        <rect x="300" y="210" width="52" height="36" rx="8" fill="#C8A996"/>
+        <rect x="314" y="198" width="24" height="12" rx="5" stroke="#9E786A" stroke-width="2"/>
+      </g>
+
+      <g opacity="0.28">
+        <path d="M170 222C184 202 210 202 224 222" stroke="#B38F7F" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="197" cy="246" r="15" fill="#FFFFFF" stroke="#C8A996" stroke-width="2"/>
+        <path d="M192 242C195 238 201 238 204 242" stroke="#9E786A" stroke-width="2" stroke-linecap="round"/>
+        <path d="M192 250C195 254 201 254 204 250" stroke="#9E786A" stroke-width="2" stroke-linecap="round"/>
+      </g>
+
+      <g opacity="0.24" stroke="#C8A996" stroke-width="2" stroke-linecap="round">
+        <path d="M132 136C156 122 176 124 192 140"/>
+        <path d="M210 152C230 138 250 140 266 156"/>
+      </g>
+
+      <g opacity="0.26">
+        <circle cx="356" cy="64" r="3" fill="#B38F7F"/>
+        <circle cx="372" cy="78" r="2.5" fill="#C8A996"/>
+        <circle cx="340" cy="82" r="2.5" fill="#C8A996"/>
+      </g>
+    </pattern>
+
+    <radialGradient id="spot1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(360 220) rotate(18) scale(560 380)">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.68"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="spot2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1620 860) rotate(-12) scale(620 400)">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#spot1)"/>
+  <rect width="1920" height="1080" fill="url(#spot2)"/>
+  <rect width="1920" height="1080" fill="url(#travelFootball)"/>
+</svg>
