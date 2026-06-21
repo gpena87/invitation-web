@@ -294,12 +294,36 @@ export class UserMusicComponent implements OnInit {
         this.selectedTrack.set(null);
       },
       error: (error: unknown) => {
-        const message = error instanceof Error && error.message === 'TRACK_NOT_FOUND'
-          ? 'No encontramos esa canción en Spotify. Intenta con otro nombre o artista.'
-          : 'No se pudo agregar la canción. Asegurate de que la playlist sea colaborativa.';
+        const message = this.resolveAddSongErrorMessage(error);
         this.errorMessage.set(message);
       },
     });
+  }
+
+  private resolveAddSongErrorMessage(error: unknown): string {
+    if (error instanceof Error && error.message === 'TRACK_NOT_FOUND') {
+      return 'No encontramos esa canción en Spotify. Intenta con otro nombre o artista.';
+    }
+
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 401) {
+        return 'Tu sesión de Spotify expiró. Vuelve a conectar tu cuenta e inténtalo de nuevo.';
+      }
+
+      if (error.status === 403) {
+        return 'Tu cuenta no tiene permiso para agregar canciones a esta playlist. Debe ser colaborativa o tuya.';
+      }
+
+      if (error.status === 404) {
+        return 'No encontramos la playlist configurada en Spotify. Verifica el playlist ID.';
+      }
+
+      if (error.status === 429) {
+        return 'Spotify limitó temporalmente las solicitudes. Espera un momento e inténtalo de nuevo.';
+      }
+    }
+
+    return 'No se pudo agregar la canción. Intenta nuevamente en unos minutos.';
   }
 
   private toAutocompleteFromSpotify(track: SpotifyTrack): AutocompleteItem {
