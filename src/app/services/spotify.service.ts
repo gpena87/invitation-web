@@ -51,6 +51,7 @@ export class SpotifyService {
       code_challenge_method: 'S256',
       code_challenge: challenge,
       scope: SCOPES,
+      show_dialog: 'true',
     });
 
     window.location.href = `https://accounts.spotify.com/authorize?${params.toString()}`;

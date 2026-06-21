@@ -50,6 +50,7 @@ export class UserMusicComponent implements OnInit {
 
   protected readonly spotifyAutoplayEmbedUrl: SafeResourceUrl =
     this.sanitizer.bypassSecurityTrustResourceUrl(environment.spotifyPlaylistEmbedUrl);
+  protected readonly spotifyCollaborativePlaylistUrl = environment.spotifyCollaborativePlaylistUrl;
 
   readonly isAuthenticated = signal(this.spotify.isAuthenticated());
   readonly isExchanging = signal(false);
@@ -147,6 +148,10 @@ export class UserMusicComponent implements OnInit {
 
   loginWithSpotify(): void {
     this.spotify.initiateLogin();
+  }
+
+  openCollaborativePlaylist(): void {
+    window.open(this.spotifyCollaborativePlaylistUrl, '_blank', 'noopener,noreferrer');
   }
 
   selectSuggestion(track: SpotifyTrack): void {
