@@ -6,10 +6,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home/home-page.component'),
 	},
   {
-    path: 'spotify-callback',
-    loadComponent: () => import('./pages/home/home-page.component'),
-  },
-  {
     path: '**',
     redirectTo: '',
   }
