@@ -21,7 +21,7 @@ export class SpotifyService {
   private readonly http = inject(HttpClient);
   private readonly clientId = environment.spotifyClientId;
   private readonly playlistId = environment.spotifyPlaylistId;
-  private readonly redirectUri = environment.spotifyRedirectUri;
+  private readonly redirectUri = this.resolveRedirectUri();
 
   // ── Auth ──────────────────────────────────────────────────────────────────
 
@@ -114,6 +114,12 @@ export class SpotifyService {
   private saveToken(token: string, expiresIn: number): void {
     localStorage.setItem(STORAGE_TOKEN_KEY, token);
     localStorage.setItem(STORAGE_EXPIRY_KEY, String(Date.now() + expiresIn * 1000));
+  }
+
+  private resolveRedirectUri(): string {
+    const configured = (environment.spotifyRedirectUri ?? '').trim();
+    const source = configured || window.location.origin;
+    return source.replace(/\/$/, '');
   }
 
   private generateCodeVerifier(): string {
