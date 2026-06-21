@@ -100,9 +100,28 @@ export class UserMusicComponent implements OnInit {
 
   selectSuggestion(track: SpotifyTrack): void {
     this.selectedTrack.set(track);
-    this.songForm.controls.suggestion.setValue(`${track.name} - ${track.artists[0]?.name ?? ''}`, { emitEvent: false });
+    this.songForm.controls.suggestion.setValue(this.trackLabel(track), { emitEvent: false });
     this.suggestions.set([]);
     this.showSuggestions.set(false);
+  }
+
+  onSuggestionInputChange(): void {
+    const value = this.normalize(this.songForm.controls.suggestion.value);
+    const match = this.suggestions().find(track => {
+      const label = this.normalize(this.trackLabel(track));
+      const song = this.normalize(track.name);
+      return label === value || song === value;
+    }) ?? null;
+    this.selectedTrack.set(match);
+  }
+
+  trackLabel(track: SpotifyTrack): string {
+    const artist = track.artists[0]?.name ?? '';
+    return artist ? `${track.name} - ${artist}` : track.name;
+  }
+
+  private normalize(value: string): string {
+    return value.trim().toLowerCase().replace(/\s+/g, ' ');
   }
 
   hideSuggestions(): void {
@@ -112,7 +131,7 @@ export class UserMusicComponent implements OnInit {
   onAddSong(): void {
     const track = this.selectedTrack();
     if (!track) {
-      this.errorMessage.set('Seleccioná una canción de la lista de sugerencias.');
+      this.errorMessage.set('Seleccioná una canción del autocompletado.');
       return;
     }
 

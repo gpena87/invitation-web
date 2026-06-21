@@ -45,12 +45,19 @@
                 <input
                   type="text"
                   formControlName="suggestion"
-                  placeholder="Buscá una canción..."
+                  placeholder="Buscá canción o artista..."
+                  list="song-suggestions"
                   autocomplete="off"
                   class="input w-full bg-white/25 focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
                   [class.input-error]="songForm.controls.suggestion.touched && songForm.controls.suggestion.invalid"
                   (blur)="hideSuggestions()"
+                  (input)="onSuggestionInputChange()"
                 />
+                <datalist id="song-suggestions">
+                  @for (track of suggestions(); track track.id) {
+                    <option [value]="trackLabel(track)"></option>
+                  }
+                </datalist>
                 @if (showSuggestions()) {
                   <ul class="absolute z-10 mt-1 w-full rounded-lg border border-[#957845]/20 bg-white shadow-lg overflow-hidden">
                     @for (track of suggestions(); track track.id) {
