@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, from, switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 const SCOPES = 'playlist-modify-public playlist-modify-private';
 const STORAGE_TOKEN_KEY = 'spotify_access_token';
 const STORAGE_EXPIRY_KEY = 'spotify_token_expiry';
 const STORAGE_VERIFIER_KEY = 'spotify_code_verifier';
+const SPOTIFY_CALLBACK_PATH = '/spotify-callback';
 
 export interface SpotifyTrack {
   id: string;
@@ -117,15 +118,12 @@ export class SpotifyService {
   }
 
   private resolveRedirectUri(): string {
-    const configured = (environment.spotifyRedirectUri ?? '').trim().replace(/\/$/, '');
-    const currentOrigin = window.location.origin.replace(/\/$/, '');
-
-    // In production, always use the live origin to avoid stale env URLs.
-    if (environment.production) {
-      return currentOrigin;
+    const configured = (environment.spotifyRedirectUri ?? '').trim();
+    if (configured) {
+      // Spotify requires an exact string match with Dashboard settings.
+      return configured;
     }
-
-    return configured || currentOrigin;
+    return `${window.location.origin}${SPOTIFY_CALLBACK_PATH}`;
   }
 
   private generateCodeVerifier(): string {
