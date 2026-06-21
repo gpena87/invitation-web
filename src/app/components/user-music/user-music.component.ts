@@ -6,7 +6,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, switchMap, catchError, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, catchError, of, map } from 'rxjs';
 import { SpotifyService, SpotifyTrack } from '../../services/spotify.service';
 
 const SPOTIFY_AUTOPLAY_EMBED_URL =
@@ -81,7 +81,10 @@ export class UserMusicComponent implements OnInit {
           this.showSuggestions.set(false);
           return of([]);
         }
-        return this.spotify.searchTracks(q).pipe(catchError(() => of([])));
+        return this.spotify.searchTracks(q).pipe(
+          map(tracks => this.rankTracks(q, tracks)),
+          catchError(() => of([]))
+        );
       })
     ).subscribe(tracks => {
       this.suggestions.set(tracks);
@@ -122,6 +125,36 @@ export class UserMusicComponent implements OnInit {
 
   private normalize(value: string): string {
     return value.trim().toLowerCase().replace(/\s+/g, ' ');
+  }
+
+  private rankTracks(query: string, tracks: SpotifyTrack[]): SpotifyTrack[] {
+    const normalizedQuery = this.normalize(query);
+    const terms = normalizedQuery.split(' ').filter(Boolean);
+
+    return [...tracks].sort((a, b) => this.scoreTrack(b, normalizedQuery, terms) - this.scoreTrack(a, normalizedQuery, terms));
+  }
+
+  private scoreTrack(track: SpotifyTrack, normalizedQuery: string, terms: string[]): number {
+    const song = this.normalize(track.name);
+    const artist = this.normalize(track.artists[0]?.name ?? '');
+    const label = this.normalize(this.trackLabel(track));
+
+    let score = 0;
+
+    if (label === normalizedQuery) score += 120;
+    if (song === normalizedQuery) score += 110;
+    if (artist === normalizedQuery) score += 100;
+
+    if (song.startsWith(normalizedQuery)) score += 80;
+    if (artist.startsWith(normalizedQuery)) score += 70;
+    if (label.includes(normalizedQuery)) score += 40;
+
+    if (terms.length > 1) {
+      const allTermsInLabel = terms.every(term => label.includes(term));
+      if (allTermsInLabel) score += 35;
+    }
+
+    return score;
   }
 
   hideSuggestions(): void {
