@@ -280,11 +280,6 @@ export class UserMusicComponent implements OnInit {
       return;
     }
 
-    if (!this.canWriteToPlaylist()) {
-      this.errorMessage.set(this.writeAccessMessage() ?? 'Tu cuenta no puede escribir en esta playlist.');
-      return;
-    }
-
     this.isAdding.set(true);
     this.successMessage.set(null);
     this.errorMessage.set(null);
@@ -376,22 +371,22 @@ export class UserMusicComponent implements OnInit {
       next: access => {
         this.canWriteToPlaylist.set(access.canWrite);
         if (!access.canWrite) {
-          this.writeAccessMessage.set('Tu cuenta no puede agregar canciones a esta playlist. Debe ser colaborativa o tuya.');
+          this.writeAccessMessage.set('No pudimos confirmar permisos de escritura para esta cuenta. Igualmente puedes intentar agregar la canción.');
         }
       },
       error: (error: unknown) => {
-        this.canWriteToPlaylist.set(false);
+        this.canWriteToPlaylist.set(true);
         if (error instanceof HttpErrorResponse && error.status === 401) {
-          this.writeAccessMessage.set('Tu sesión de Spotify expiró. Vuelve a conectar tu cuenta.');
+          this.writeAccessMessage.set('Tu sesión de Spotify podría haber expirado. Si falla al agregar, vuelve a conectar tu cuenta.');
           return;
         }
 
         if (error instanceof HttpErrorResponse && error.status === 403) {
-          this.writeAccessMessage.set('Spotify bloqueó la validación de permisos. Desconecta y vuelve a conectar tu cuenta para renovar accesos.');
+          this.writeAccessMessage.set('Spotify no permitió validar permisos por adelantado. Puedes intentar agregar y, si falla, reconectar la cuenta.');
           return;
         }
 
-        this.writeAccessMessage.set('No pudimos validar permisos de la playlist en Spotify. Intenta nuevamente.');
+        this.writeAccessMessage.set('No pudimos validar permisos de la playlist, pero puedes intentar agregar la canción.');
       }
     });
   }

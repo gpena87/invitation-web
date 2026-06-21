@@ -105,7 +105,7 @@
             <button
               type="submit"
               class="btn w-full border-[#957845] bg-transparent text-[#957845] hover:bg-[#957845] hover:text-white"
-              [disabled]="isAdding() || isCheckingWriteAccess() || !canWriteToPlaylist()"
+              [disabled]="isAdding() || isCheckingWriteAccess()"
             >
               @if (isAdding()) {
                 <span class="loading loading-spinner loading-sm"></span>
