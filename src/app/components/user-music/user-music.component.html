@@ -61,14 +61,11 @@
                         class="flex cursor-pointer items-center gap-3 px-3 py-2 hover:bg-[#957845]/10"
                         [style.backgroundColor]="$index === activeSuggestionIndex() ? 'rgba(149, 120, 69, 0.10)' : null"
                         (mousedown)="$event.preventDefault()"
-                        (click)="selectSuggestion(track)"
+                        (click)="selectAutocompleteItem(track)"
                       >
-                        @if (track.album.images[0]) {
-                          <img [src]="track.album.images[0].url" class="h-9 w-9 rounded object-cover" alt="" />
-                        }
                         <div class="overflow-hidden">
-                          <p class="truncate text-sm font-medium text-gray-800">{{ track.name }}</p>
-                          <p class="truncate text-xs text-gray-400">{{ track.artists[0]?.name }}</p>
+                          <p class="truncate text-sm font-medium text-gray-800">{{ track.title }}</p>
+                          <p class="truncate text-xs text-gray-400">{{ track.subtitle }}</p>
                         </div>
                       </li>
                     }

@@ -3,16 +3,33 @@ import {
   inject, signal
 } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, switchMap, catchError, of, map, finalize } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, catchError, of, map, finalize, throwError } from 'rxjs';
 import { SpotifyService, SpotifyTrack } from '../../services/spotify.service';
 
 const SPOTIFY_AUTOPLAY_EMBED_URL =
   'https://open.spotify.com/embed/playlist/6IOJDEwrxWtqhVu6YN4POd?autoplay=1&utm_source=generator';
 const AUTOCOMPLETE_MIN_CHARS = 3;
+
+interface AutocompleteItem {
+  id: string;
+  title: string;
+  subtitle: string;
+  query: string;
+  spotifyTrack: SpotifyTrack | null;
+}
+
+interface ItunesSearchResponse {
+  results: Array<{
+    trackId?: number;
+    trackName?: string;
+    artistName?: string;
+  }>;
+}
 
 @Component({
   selector: 'app-user-music',
@@ -28,6 +45,7 @@ export class UserMusicComponent implements OnInit {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly fb = inject(FormBuilder);
   private readonly spotify = inject(SpotifyService);
+  private readonly http = inject(HttpClient);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
@@ -40,7 +58,7 @@ export class UserMusicComponent implements OnInit {
   readonly isAdding = signal(false);
   readonly successMessage = signal<string | null>(null);
   readonly errorMessage = signal<string | null>(null);
-  readonly suggestions = signal<SpotifyTrack[]>([]);
+  readonly suggestions = signal<AutocompleteItem[]>([]);
   readonly showSuggestions = signal(false);
   readonly isSearching = signal(false);
   readonly noResults = signal(false);
@@ -96,11 +114,15 @@ export class UserMusicComponent implements OnInit {
         this.searchErrorMessage.set(null);
 
         return this.spotify.searchTracks(q).pipe(
-          map(tracks => this.rankTracks(q, tracks)),
-          catchError((error: unknown) => {
-            this.handleSearchError(error);
-            return of([]);
-          }),
+          map(tracks => this.rankTracks(q, tracks).map(track => this.toAutocompleteFromSpotify(track))),
+          catchError(() =>
+            this.searchItunesSuggestions(q).pipe(
+              catchError((error: unknown) => {
+                this.handleSearchError(error);
+                return of([]);
+              })
+            )
+          ),
           finalize(() => this.isSearching.set(false))
         );
       })
@@ -122,8 +144,13 @@ export class UserMusicComponent implements OnInit {
   }
 
   selectSuggestion(track: SpotifyTrack): void {
-    this.selectedTrack.set(track);
-    this.songForm.controls.suggestion.setValue(this.trackLabel(track), { emitEvent: false });
+    const item = this.toAutocompleteFromSpotify(track);
+    this.selectAutocompleteItem(item);
+  }
+
+  selectAutocompleteItem(item: AutocompleteItem): void {
+    this.selectedTrack.set(item.spotifyTrack);
+    this.songForm.controls.suggestion.setValue(item.query, { emitEvent: false });
     this.suggestions.set([]);
     this.showSuggestions.set(false);
     this.noResults.set(false);
@@ -133,11 +160,11 @@ export class UserMusicComponent implements OnInit {
   onSuggestionInputChange(): void {
     const value = this.normalize(this.songForm.controls.suggestion.value);
     const match = this.suggestions().find(track => {
-      const label = this.normalize(this.trackLabel(track));
-      const song = this.normalize(track.name);
+      const label = this.normalize(track.query);
+      const song = this.normalize(track.title);
       return label === value || song === value;
     }) ?? null;
-    this.selectedTrack.set(match);
+    this.selectedTrack.set(match?.spotifyTrack ?? null);
 
     if (value.length >= AUTOCOMPLETE_MIN_CHARS && this.suggestions().length > 0) {
       this.showSuggestions.set(true);
@@ -180,7 +207,7 @@ export class UserMusicComponent implements OnInit {
       const idx = this.activeSuggestionIndex();
       if (idx >= 0 && idx < items.length) {
         event.preventDefault();
-        this.selectSuggestion(items[idx]);
+        this.selectAutocompleteItem(items[idx]);
       }
     }
   }
@@ -242,37 +269,80 @@ export class UserMusicComponent implements OnInit {
   }
 
   onAddSong(): void {
-    const track = this.selectedTrack() ?? this.resolveTrackFromInput();
-    if (!track) {
-      this.errorMessage.set('Seleccioná una canción del autocompletado.');
-      return;
-    }
-
     this.isAdding.set(true);
     this.successMessage.set(null);
     this.errorMessage.set(null);
 
-    this.spotify.addTrackToPlaylist(track.uri).subscribe({
-      next: () => {
+    const selectedTrack = this.selectedTrack();
+    const query = this.songForm.controls.suggestion.value.trim();
+    const track$ = selectedTrack
+      ? of(selectedTrack)
+      : this.spotify.searchTracks(query).pipe(map(tracks => tracks[0] ?? null));
+
+    track$.pipe(
+      switchMap(track => {
+        if (!track) {
+          return throwError(() => new Error('TRACK_NOT_FOUND'));
+        }
+        return this.spotify.addTrackToPlaylist(track.uri).pipe(map(() => track));
+      }),
+      finalize(() => this.isAdding.set(false))
+    ).subscribe({
+      next: track => {
         this.successMessage.set(`"${track.name}" fue agregada a la playlist 🎶`);
         this.songForm.reset({ suggestion: '' });
         this.selectedTrack.set(null);
-        this.isAdding.set(false);
       },
-      error: () => {
-        this.errorMessage.set('No se pudo agregar la canción. Asegurate de que la playlist sea colaborativa.');
-        this.isAdding.set(false);
+      error: (error: unknown) => {
+        const message = error instanceof Error && error.message === 'TRACK_NOT_FOUND'
+          ? 'No encontramos esa canción en Spotify. Intenta con otro nombre o artista.'
+          : 'No se pudo agregar la canción. Asegurate de que la playlist sea colaborativa.';
+        this.errorMessage.set(message);
       },
     });
   }
 
-  private resolveTrackFromInput(): SpotifyTrack | null {
-    const value = this.normalize(this.songForm.controls.suggestion.value);
-    return this.suggestions().find(track => {
-      const label = this.normalize(this.trackLabel(track));
-      const song = this.normalize(track.name);
-      return label === value || song === value;
-    }) ?? this.suggestions()[0] ?? null;
+  private toAutocompleteFromSpotify(track: SpotifyTrack): AutocompleteItem {
+    const artist = track.artists[0]?.name ?? '';
+    return {
+      id: track.id,
+      title: track.name,
+      subtitle: artist,
+      query: artist ? `${track.name} - ${artist}` : track.name,
+      spotifyTrack: track,
+    };
+  }
+
+  private searchItunesSuggestions(query: string) {
+    return this.http
+      .get<ItunesSearchResponse>(
+        `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=8`
+      )
+      .pipe(
+        map(response => {
+          const seen = new Set<string>();
+          return response.results
+            .filter(item => !!item.trackName)
+            .map(item => {
+              const title = (item.trackName ?? '').trim();
+              const subtitle = (item.artistName ?? '').trim();
+              const queryLabel = subtitle ? `${title} - ${subtitle}` : title;
+              return {
+                id: `itunes-${item.trackId ?? queryLabel}`,
+                title,
+                subtitle,
+                query: queryLabel,
+                spotifyTrack: null,
+              } as AutocompleteItem;
+            })
+            .filter(item => {
+              const key = this.normalize(item.query);
+              if (seen.has(key)) return false;
+              seen.add(key);
+              return true;
+            });
+        })
+      );
   }
 
   logout(): void {
