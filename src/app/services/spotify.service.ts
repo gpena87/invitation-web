@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, forkJoin, map, of, switchMap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-const SCOPES = 'playlist-modify-public playlist-modify-private';
+const SCOPES = 'playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative';
 const STORAGE_TOKEN_KEY = 'spotify_access_token';
 const STORAGE_EXPIRY_KEY = 'spotify_token_expiry';
 const STORAGE_VERIFIER_KEY = 'spotify_code_verifier';
@@ -15,6 +15,19 @@ export interface SpotifyTrack {
   uri: string;
   artists: { name: string }[];
   album: { name: string; images: { url: string }[] };
+}
+
+interface SpotifyCurrentUser {
+  id: string;
+}
+
+interface SpotifyPlaylistAccessInfo {
+  owner?: { id?: string };
+  collaborative?: boolean;
+}
+
+export interface PlaylistWriteAccess {
+  canWrite: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -103,6 +116,30 @@ export class SpotifyService {
       `https://api.spotify.com/v1/playlists/${this.playlistId}/tracks`,
       { uris: [trackUri] },
       { headers: this.authHeaders(token!) }
+    );
+  }
+
+  canCurrentUserWritePlaylist(): Observable<PlaylistWriteAccess> {
+    const token = this.getToken();
+    if (!token) {
+      return of({ canWrite: false });
+    }
+
+    return forkJoin({
+      me: this.http.get<SpotifyCurrentUser>('https://api.spotify.com/v1/me', {
+        headers: this.authHeaders(token),
+      }),
+      playlist: this.http.get<SpotifyPlaylistAccessInfo>(
+        `https://api.spotify.com/v1/playlists/${this.playlistId}?fields=owner(id),collaborative`,
+        { headers: this.authHeaders(token) }
+      ),
+    }).pipe(
+      map(({ me, playlist }) => {
+        const ownerId = playlist.owner?.id ?? '';
+        const isOwner = ownerId.length > 0 && ownerId === me.id;
+        const isCollaborative = !!playlist.collaborative;
+        return { canWrite: isOwner || isCollaborative };
+      })
     );
   }
 

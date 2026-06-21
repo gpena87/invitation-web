@@ -53,6 +53,9 @@ export class UserMusicComponent implements OnInit {
 
   readonly isAuthenticated = signal(this.spotify.isAuthenticated());
   readonly isExchanging = signal(false);
+  readonly isCheckingWriteAccess = signal(false);
+  readonly canWriteToPlaylist = signal(true);
+  readonly writeAccessMessage = signal<string | null>(null);
   readonly isAdding = signal(false);
   readonly successMessage = signal<string | null>(null);
   readonly errorMessage = signal<string | null>(null);
@@ -69,6 +72,10 @@ export class UserMusicComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    if (this.isAuthenticated()) {
+      this.checkPlaylistWriteAccess();
+    }
+
     // Handle Spotify OAuth callback (?code=...)
     this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       const code = params['code'];
@@ -77,6 +84,7 @@ export class UserMusicComponent implements OnInit {
         this.spotify.exchangeCodeForToken(code).subscribe({
           next: () => {
             this.isAuthenticated.set(true);
+            this.checkPlaylistWriteAccess();
             this.isExchanging.set(false);
             // Clean up URL
             this.router.navigate([], { replaceUrl: true });
@@ -267,6 +275,16 @@ export class UserMusicComponent implements OnInit {
   }
 
   onAddSong(): void {
+    if (this.isCheckingWriteAccess()) {
+      this.errorMessage.set('Estamos verificando permisos de la playlist en Spotify. Intenta nuevamente en unos segundos.');
+      return;
+    }
+
+    if (!this.canWriteToPlaylist()) {
+      this.errorMessage.set(this.writeAccessMessage() ?? 'Tu cuenta no puede escribir en esta playlist.');
+      return;
+    }
+
     this.isAdding.set(true);
     this.successMessage.set(null);
     this.errorMessage.set(null);
@@ -309,7 +327,12 @@ export class UserMusicComponent implements OnInit {
       }
 
       if (error.status === 403) {
-        return 'Tu cuenta no tiene permiso para agregar canciones a esta playlist. Debe ser colaborativa o tuya.';
+        const spotifyMessage = this.getSpotifyApiMessage(error);
+        if (spotifyMessage.includes('insufficient client scope')) {
+          return 'Spotify devolvio 403 por permisos OAuth insuficientes. Desconecta y vuelve a conectar Spotify para renovar permisos.';
+        }
+
+        return 'Spotify devolvio 403: tu usuario no puede agregar canciones a esta playlist. Debe ser colaborativa o tuya, y luego debes volver a conectar Spotify.';
       }
 
       if (error.status === 404) {
@@ -322,6 +345,55 @@ export class UserMusicComponent implements OnInit {
     }
 
     return 'No se pudo agregar la canción. Intenta nuevamente en unos minutos.';
+  }
+
+  private getSpotifyApiMessage(error: HttpErrorResponse): string {
+    const body = error.error as
+      | { error?: { message?: string } }
+      | { message?: string }
+      | null;
+
+    if (typeof body === 'object' && body !== null) {
+      if ('error' in body && typeof body.error?.message === 'string') {
+        return body.error.message.toLowerCase();
+      }
+
+      if ('message' in body && typeof body.message === 'string') {
+        return body.message.toLowerCase();
+      }
+    }
+
+    return '';
+  }
+
+  private checkPlaylistWriteAccess(): void {
+    this.isCheckingWriteAccess.set(true);
+    this.writeAccessMessage.set(null);
+
+    this.spotify.canCurrentUserWritePlaylist().pipe(
+      finalize(() => this.isCheckingWriteAccess.set(false))
+    ).subscribe({
+      next: access => {
+        this.canWriteToPlaylist.set(access.canWrite);
+        if (!access.canWrite) {
+          this.writeAccessMessage.set('Tu cuenta no puede agregar canciones a esta playlist. Debe ser colaborativa o tuya.');
+        }
+      },
+      error: (error: unknown) => {
+        this.canWriteToPlaylist.set(false);
+        if (error instanceof HttpErrorResponse && error.status === 401) {
+          this.writeAccessMessage.set('Tu sesión de Spotify expiró. Vuelve a conectar tu cuenta.');
+          return;
+        }
+
+        if (error instanceof HttpErrorResponse && error.status === 403) {
+          this.writeAccessMessage.set('Spotify bloqueó la validación de permisos. Desconecta y vuelve a conectar tu cuenta para renovar accesos.');
+          return;
+        }
+
+        this.writeAccessMessage.set('No pudimos validar permisos de la playlist en Spotify. Intenta nuevamente.');
+      }
+    });
   }
 
   private toAutocompleteFromSpotify(track: SpotifyTrack): AutocompleteItem {
@@ -370,6 +442,8 @@ export class UserMusicComponent implements OnInit {
   logout(): void {
     this.spotify.logout();
     this.isAuthenticated.set(false);
+    this.canWriteToPlaylist.set(true);
+    this.writeAccessMessage.set(null);
     this.songForm.reset({ suggestion: '' });
   }
 }

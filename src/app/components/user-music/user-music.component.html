@@ -95,14 +95,22 @@
             @if (errorMessage()) {
               <p class="mb-4 text-center text-sm font-medium text-error">{{ errorMessage() }}</p>
             }
+            @if (isCheckingWriteAccess()) {
+              <p class="mb-4 text-center text-xs text-[#957845]/80">Verificando permisos de la playlist...</p>
+            }
+            @if (!isCheckingWriteAccess() && writeAccessMessage()) {
+              <p class="mb-4 text-center text-xs font-medium text-error">{{ writeAccessMessage() }}</p>
+            }
 
             <button
               type="submit"
               class="btn w-full border-[#957845] bg-transparent text-[#957845] hover:bg-[#957845] hover:text-white"
-              [disabled]="isAdding()"
+              [disabled]="isAdding() || isCheckingWriteAccess() || !canWriteToPlaylist()"
             >
               @if (isAdding()) {
                 <span class="loading loading-spinner loading-sm"></span>
+              } @else if (isCheckingWriteAccess()) {
+                Verificando permisos...
               } @else {
                 Agregar a la playlist
               }
