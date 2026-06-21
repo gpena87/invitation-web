@@ -41,6 +41,7 @@ export class UserMusicComponent implements OnInit {
   readonly suggestions = signal<SpotifyTrack[]>([]);
   readonly showSuggestions = signal(false);
   readonly selectedTrack = signal<SpotifyTrack | null>(null);
+  readonly activeSuggestionIndex = signal(-1);
 
   readonly songForm = this.fb.nonNullable.group({
     suggestion: ['', [Validators.required, Validators.minLength(1)]],
@@ -89,6 +90,7 @@ export class UserMusicComponent implements OnInit {
     ).subscribe(tracks => {
       this.suggestions.set(tracks);
       this.showSuggestions.set(tracks.length > 0);
+      this.activeSuggestionIndex.set(tracks.length > 0 ? 0 : -1);
     });
 
     this.songForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
@@ -106,6 +108,7 @@ export class UserMusicComponent implements OnInit {
     this.songForm.controls.suggestion.setValue(this.trackLabel(track), { emitEvent: false });
     this.suggestions.set([]);
     this.showSuggestions.set(false);
+    this.activeSuggestionIndex.set(-1);
   }
 
   onSuggestionInputChange(): void {
@@ -126,6 +129,36 @@ export class UserMusicComponent implements OnInit {
     const value = this.normalize(this.songForm.controls.suggestion.value);
     if (value.length >= 2 && this.suggestions().length > 0) {
       this.showSuggestions.set(true);
+      if (this.activeSuggestionIndex() < 0) this.activeSuggestionIndex.set(0);
+    }
+  }
+
+  onSuggestionKeydown(event: KeyboardEvent): void {
+    const items = this.suggestions();
+    if (!this.showSuggestions() || items.length === 0) {
+      return;
+    }
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      const next = (this.activeSuggestionIndex() + 1) % items.length;
+      this.activeSuggestionIndex.set(next);
+      return;
+    }
+
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      const prev = (this.activeSuggestionIndex() - 1 + items.length) % items.length;
+      this.activeSuggestionIndex.set(prev);
+      return;
+    }
+
+    if (event.key === 'Enter') {
+      const idx = this.activeSuggestionIndex();
+      if (idx >= 0 && idx < items.length) {
+        event.preventDefault();
+        this.selectSuggestion(items[idx]);
+      }
     }
   }
 
@@ -173,7 +206,7 @@ export class UserMusicComponent implements OnInit {
   }
 
   onAddSong(): void {
-    const track = this.selectedTrack();
+    const track = this.selectedTrack() ?? this.resolveTrackFromInput();
     if (!track) {
       this.errorMessage.set('Seleccioná una canción del autocompletado.');
       return;
@@ -195,6 +228,15 @@ export class UserMusicComponent implements OnInit {
         this.isAdding.set(false);
       },
     });
+  }
+
+  private resolveTrackFromInput(): SpotifyTrack | null {
+    const value = this.normalize(this.songForm.controls.suggestion.value);
+    return this.suggestions().find(track => {
+      const label = this.normalize(this.trackLabel(track));
+      const song = this.normalize(track.name);
+      return label === value || song === value;
+    }) ?? this.suggestions()[0] ?? null;
   }
 
   logout(): void {

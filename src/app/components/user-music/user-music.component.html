@@ -53,6 +53,7 @@
                   (focus)="showSuggestionsOnFocus()"
                   (blur)="hideSuggestions()"
                   (input)="onSuggestionInputChange()"
+                  (keydown)="onSuggestionKeydown($event)"
                 />
                 <datalist id="song-suggestions">
                   @for (track of suggestions(); track track.id) {
@@ -64,6 +65,7 @@
                     @for (track of suggestions(); track track.id) {
                       <li
                         class="flex cursor-pointer items-center gap-3 px-3 py-2 hover:bg-[#957845]/10"
+                        [style.backgroundColor]="$index === activeSuggestionIndex() ? 'rgba(149, 120, 69, 0.10)' : null"
                         (mousedown)="$event.preventDefault()"
                         (click)="selectSuggestion(track)"
                       >
