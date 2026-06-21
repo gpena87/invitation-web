@@ -6,7 +6,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, switchMap, catchError, of, map } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, catchError, of, map, finalize } from 'rxjs';
 import { SpotifyService, SpotifyTrack } from '../../services/spotify.service';
 
 const SPOTIFY_AUTOPLAY_EMBED_URL =
@@ -41,6 +41,8 @@ export class UserMusicComponent implements OnInit {
   readonly errorMessage = signal<string | null>(null);
   readonly suggestions = signal<SpotifyTrack[]>([]);
   readonly showSuggestions = signal(false);
+  readonly isSearching = signal(false);
+  readonly noResults = signal(false);
   readonly selectedTrack = signal<SpotifyTrack | null>(null);
   readonly activeSuggestionIndex = signal(-1);
 
@@ -81,16 +83,24 @@ export class UserMusicComponent implements OnInit {
         if (q.length < AUTOCOMPLETE_MIN_CHARS || !this.spotify.isAuthenticated()) {
           this.suggestions.set([]);
           this.showSuggestions.set(false);
+          this.isSearching.set(false);
+          this.noResults.set(false);
           return of([]);
         }
+
+        this.isSearching.set(true);
+        this.noResults.set(false);
+
         return this.spotify.searchTracks(q).pipe(
           map(tracks => this.rankTracks(q, tracks)),
-          catchError(() => of([]))
+          catchError(() => of([])),
+          finalize(() => this.isSearching.set(false))
         );
       })
     ).subscribe(tracks => {
       this.suggestions.set(tracks);
       this.showSuggestions.set(tracks.length > 0);
+      this.noResults.set(tracks.length === 0);
       this.activeSuggestionIndex.set(tracks.length > 0 ? 0 : -1);
     });
 
@@ -109,6 +119,7 @@ export class UserMusicComponent implements OnInit {
     this.songForm.controls.suggestion.setValue(this.trackLabel(track), { emitEvent: false });
     this.suggestions.set([]);
     this.showSuggestions.set(false);
+    this.noResults.set(false);
     this.activeSuggestionIndex.set(-1);
   }
 
@@ -203,7 +214,10 @@ export class UserMusicComponent implements OnInit {
   }
 
   hideSuggestions(): void {
-    setTimeout(() => this.showSuggestions.set(false), 150);
+    setTimeout(() => {
+      this.showSuggestions.set(false);
+      this.noResults.set(false);
+    }, 150);
   }
 
   onAddSong(): void {

@@ -75,6 +75,12 @@
                   </ul>
                 }
               </div>
+              @if (isSearching()) {
+                <p class="mt-2 text-xs text-[#957845]/80">Buscando canciones...</p>
+              }
+              @if (noResults() && !isSearching()) {
+                <p class="mt-2 text-xs text-[#957845]/80">No encontramos resultados para esa búsqueda.</p>
+              }
               <p
                 class="mt-1 min-h-4 text-sm font-medium text-error"
                 [class.invisible]="!(songForm.controls.suggestion.touched && songForm.controls.suggestion.invalid)"
