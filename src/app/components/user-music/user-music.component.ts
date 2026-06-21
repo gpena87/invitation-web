@@ -226,10 +226,8 @@ export class UserMusicComponent implements OnInit {
 
   private handleSearchError(error: unknown): void {
     if (error instanceof HttpErrorResponse && (error.status === 401 || error.status === 403)) {
-      this.spotify.logout();
-      this.isAuthenticated.set(false);
       this.showSuggestions.set(false);
-      this.searchErrorMessage.set('Tu sesión de Spotify expiró. Conéctate nuevamente para buscar canciones.');
+      this.searchErrorMessage.set('No se pudo buscar en Spotify ahora. Intenta nuevamente en unos segundos.');
       return;
     }
 
