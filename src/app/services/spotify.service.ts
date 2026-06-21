@@ -21,7 +21,7 @@ export class SpotifyService {
   private readonly http = inject(HttpClient);
   private readonly clientId = environment.spotifyClientId;
   private readonly playlistId = environment.spotifyPlaylistId;
-  private readonly redirectUri = window.location.origin;
+  private readonly redirectUri = environment.spotifyRedirectUri;
 
   // ── Auth ──────────────────────────────────────────────────────────────────
 
