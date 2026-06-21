@@ -120,6 +120,16 @@ export class SpotifyService {
   private resolveRedirectUri(): string {
     const configured = (environment.spotifyRedirectUri ?? '').trim();
     if (configured) {
+      // If config is root-only, force a deterministic callback path.
+      try {
+        const parsed = new URL(configured);
+        if (!parsed.pathname || parsed.pathname === '/') {
+          return `${parsed.origin}${SPOTIFY_CALLBACK_PATH}`;
+        }
+      } catch {
+        return configured;
+      }
+
       // Spotify requires an exact string match with Dashboard settings.
       return configured;
     }
