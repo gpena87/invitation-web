@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy, Component, DestroyRef, OnInit,
   inject, signal
 } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -43,6 +44,7 @@ export class UserMusicComponent implements OnInit {
   readonly showSuggestions = signal(false);
   readonly isSearching = signal(false);
   readonly noResults = signal(false);
+  readonly searchErrorMessage = signal<string | null>(null);
   readonly selectedTrack = signal<SpotifyTrack | null>(null);
   readonly activeSuggestionIndex = signal(-1);
 
@@ -85,22 +87,27 @@ export class UserMusicComponent implements OnInit {
           this.showSuggestions.set(false);
           this.isSearching.set(false);
           this.noResults.set(false);
+          this.searchErrorMessage.set(null);
           return of([]);
         }
 
         this.isSearching.set(true);
         this.noResults.set(false);
+        this.searchErrorMessage.set(null);
 
         return this.spotify.searchTracks(q).pipe(
           map(tracks => this.rankTracks(q, tracks)),
-          catchError(() => of([])),
+          catchError((error: unknown) => {
+            this.handleSearchError(error);
+            return of([]);
+          }),
           finalize(() => this.isSearching.set(false))
         );
       })
     ).subscribe(tracks => {
       this.suggestions.set(tracks);
       this.showSuggestions.set(tracks.length > 0);
-      this.noResults.set(tracks.length === 0);
+      this.noResults.set(!this.searchErrorMessage() && tracks.length === 0);
       this.activeSuggestionIndex.set(tracks.length > 0 ? 0 : -1);
     });
 
@@ -134,6 +141,10 @@ export class UserMusicComponent implements OnInit {
 
     if (value.length >= AUTOCOMPLETE_MIN_CHARS && this.suggestions().length > 0) {
       this.showSuggestions.set(true);
+    }
+
+    if (value.length < AUTOCOMPLETE_MIN_CHARS) {
+      this.searchErrorMessage.set(null);
     }
   }
 
@@ -211,6 +222,18 @@ export class UserMusicComponent implements OnInit {
     }
 
     return score;
+  }
+
+  private handleSearchError(error: unknown): void {
+    if (error instanceof HttpErrorResponse && (error.status === 401 || error.status === 403)) {
+      this.spotify.logout();
+      this.isAuthenticated.set(false);
+      this.showSuggestions.set(false);
+      this.searchErrorMessage.set('Tu sesión de Spotify expiró. Conéctate nuevamente para buscar canciones.');
+      return;
+    }
+
+    this.searchErrorMessage.set('No pudimos buscar canciones en Spotify. Intenta nuevamente.');
   }
 
   hideSuggestions(): void {
