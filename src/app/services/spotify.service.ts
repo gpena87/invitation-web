@@ -117,9 +117,15 @@ export class SpotifyService {
   }
 
   private resolveRedirectUri(): string {
-    const configured = (environment.spotifyRedirectUri ?? '').trim();
-    const source = configured || window.location.origin;
-    return source.replace(/\/$/, '');
+    const configured = (environment.spotifyRedirectUri ?? '').trim().replace(/\/$/, '');
+    const currentOrigin = window.location.origin.replace(/\/$/, '');
+
+    // In production, always use the live origin to avoid stale env URLs.
+    if (environment.production) {
+      return currentOrigin;
+    }
+
+    return configured || currentOrigin;
   }
 
   private generateCodeVerifier(): string {
