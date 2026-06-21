@@ -10,9 +10,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, of, map, finalize, throwError } from 'rxjs';
 import { SpotifyService, SpotifyTrack } from '../../services/spotify.service';
-
-const SPOTIFY_AUTOPLAY_EMBED_URL =
-  'https://open.spotify.com/embed/playlist/6IOJDEwrxWtqhVu6YN4POd?autoplay=1&utm_source=generator';
+import { environment } from '../../../environments/environment';
 const AUTOCOMPLETE_MIN_CHARS = 3;
 
 interface AutocompleteItem {
@@ -51,7 +49,7 @@ export class UserMusicComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly spotifyAutoplayEmbedUrl: SafeResourceUrl =
-    this.sanitizer.bypassSecurityTrustResourceUrl(SPOTIFY_AUTOPLAY_EMBED_URL);
+    this.sanitizer.bypassSecurityTrustResourceUrl(environment.spotifyPlaylistEmbedUrl);
 
   readonly isAuthenticated = signal(this.spotify.isAuthenticated());
   readonly isExchanging = signal(false);
