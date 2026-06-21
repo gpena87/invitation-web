@@ -11,6 +11,7 @@ import { SpotifyService, SpotifyTrack } from '../../services/spotify.service';
 
 const SPOTIFY_AUTOPLAY_EMBED_URL =
   'https://open.spotify.com/embed/playlist/6IOJDEwrxWtqhVu6YN4POd?autoplay=1&utm_source=generator';
+const AUTOCOMPLETE_MIN_CHARS = 3;
 
 @Component({
   selector: 'app-user-music',
@@ -77,7 +78,7 @@ export class UserMusicComponent implements OnInit {
       switchMap(query => {
         const q = query.trim();
         this.selectedTrack.set(null);
-        if (q.length < 2 || !this.spotify.isAuthenticated()) {
+        if (q.length < AUTOCOMPLETE_MIN_CHARS || !this.spotify.isAuthenticated()) {
           this.suggestions.set([]);
           this.showSuggestions.set(false);
           return of([]);
@@ -120,14 +121,14 @@ export class UserMusicComponent implements OnInit {
     }) ?? null;
     this.selectedTrack.set(match);
 
-    if (value.length >= 2 && this.suggestions().length > 0) {
+    if (value.length >= AUTOCOMPLETE_MIN_CHARS && this.suggestions().length > 0) {
       this.showSuggestions.set(true);
     }
   }
 
   showSuggestionsOnFocus(): void {
     const value = this.normalize(this.songForm.controls.suggestion.value);
-    if (value.length >= 2 && this.suggestions().length > 0) {
+    if (value.length >= AUTOCOMPLETE_MIN_CHARS && this.suggestions().length > 0) {
       this.showSuggestions.set(true);
       if (this.activeSuggestionIndex() < 0) this.activeSuggestionIndex.set(0);
     }
