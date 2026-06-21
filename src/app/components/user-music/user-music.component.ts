@@ -116,6 +116,17 @@ export class UserMusicComponent implements OnInit {
       return label === value || song === value;
     }) ?? null;
     this.selectedTrack.set(match);
+
+    if (value.length >= 2 && this.suggestions().length > 0) {
+      this.showSuggestions.set(true);
+    }
+  }
+
+  showSuggestionsOnFocus(): void {
+    const value = this.normalize(this.songForm.controls.suggestion.value);
+    if (value.length >= 2 && this.suggestions().length > 0) {
+      this.showSuggestions.set(true);
+    }
   }
 
   trackLabel(track: SpotifyTrack): string {

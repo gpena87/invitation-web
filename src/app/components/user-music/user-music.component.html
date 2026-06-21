@@ -47,9 +47,10 @@
                   formControlName="suggestion"
                   placeholder="Buscá canción o artista..."
                   list="song-suggestions"
-                  autocomplete="off"
+                  autocomplete="on"
                   class="input w-full bg-white/25 focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
                   [class.input-error]="songForm.controls.suggestion.touched && songForm.controls.suggestion.invalid"
+                  (focus)="showSuggestionsOnFocus()"
                   (blur)="hideSuggestions()"
                   (input)="onSuggestionInputChange()"
                 />
@@ -63,7 +64,8 @@
                     @for (track of suggestions(); track track.id) {
                       <li
                         class="flex cursor-pointer items-center gap-3 px-3 py-2 hover:bg-[#957845]/10"
-                        (mousedown)="selectSuggestion(track)"
+                        (mousedown)="$event.preventDefault()"
+                        (click)="selectSuggestion(track)"
                       >
                         @if (track.album.images[0]) {
                           <img [src]="track.album.images[0].url" class="h-9 w-9 rounded object-cover" alt="" />
