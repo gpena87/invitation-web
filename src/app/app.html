@@ -1,1 +1,24 @@
+<audio #bgAudio preload="auto" loop style="display: none;">
+	<source src="assets/branding/good_b_music-emotional-cinematic-inspirational-piano-loop-199566.mp3" type="audio/mpeg" />
+</audio>
+
+<button
+	(click)="toggleAudio()"
+	type="button"
+	data-audio-toggle="true"
+	class="fixed top-4 right-4 z-9999 p-2 rounded-full bg-[#957845] text-white hover:bg-[#8a6a39] transition-colors opacity-100 pointer-events-auto"
+	title="Activar/Desactivar sonido"
+	style="outline: none; border: none; cursor: pointer;"
+>
+	<svg *ngIf="isMuted()" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+		<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+		<line x1="23" y1="9" x2="17" y2="15"></line>
+		<line x1="17" y1="9" x2="23" y2="15"></line>
+	</svg>
+	<svg *ngIf="!isMuted()" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+		<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+		<path d="M15.54 3.54a9 9 0 0 1 0 12.72M19.07 4.93a13 13 0 0 1 0 14.14"></path>
+	</svg>
+</button>
+
 <router-outlet />
