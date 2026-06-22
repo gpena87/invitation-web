@@ -4,8 +4,8 @@
       <h2 class="mt-2 text-5xl font-light text-[#957845] sm:text-6xl tracking-wider">{{ title() }}</h2>
       <p class="mb-4 text-[#957845]">{{ subtitle() }}</p>
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate class="text-center">
-        <fieldset class="mb-5">
-          <legend class="mb-4 text-base font-semibold uppercase tracking-widest text-[#957845]">Nombre</legend>
+        <fieldset class="mb-0">
+          <legend class="mb-0 text-base font-semibold uppercase tracking-widest text-[#957845]">Nombre</legend>
           <input
             id="name"
             type="text"
@@ -15,15 +15,15 @@
             [class.input-error]="userForm.controls.name.touched && userForm.controls.name.invalid"
           />
           <p
-            class="mt-1 min-h-1 text-base font-medium text-[#957845]"
+            class="mt-0 min-h-0 text-base font-medium text-[#957845]"
             [class.text-error]="userForm.controls.name.touched && userForm.controls.name.invalid"
             [class.invisible]="!(userForm.controls.name.touched && userForm.controls.name.invalid)"
           >
             Ingresa un nombre valido.
           </p>
         </fieldset>
-        <fieldset class="mb-5">
-          <legend class="mb-4 text-base font-semibold uppercase tracking-widest text-[#957845]">Apellido</legend>
+        <fieldset class="mb-0">
+          <legend class="mb-0 text-base font-semibold uppercase tracking-widest text-[#957845]">Apellido</legend>
           <input
             id="lastName"
             type="text"
@@ -33,7 +33,7 @@
             [class.input-error]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
           />
           <p
-            class="mt-1 min-h-3 text-base font-medium text-[#957845]"
+            class="mt-0 min-h-2 text-base font-medium text-[#957845]"
             [class.text-error]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
             [class.invisible]="!(userForm.controls.lastName.touched && userForm.controls.lastName.invalid)"
           >
@@ -41,8 +41,8 @@
           </p>
         </fieldset>
 
-        <fieldset class="mb-5">
-          <legend class="mb-4 text-base font-semibold uppercase tracking-widest text-[#957845]">¿Confirmas tu asistencia?</legend>
+        <fieldset class="mb-0">
+          <legend class="mb-0 text-base font-semibold uppercase tracking-widest text-[#957845]">¿Confirmas tu asistencia?</legend>
           <select
             id="confirmation"
             formControlName="confirmation"
@@ -54,7 +54,7 @@
             <option value="false" class="text-base">No</option>
           </select>
           <p
-            class="mt-1 min-h-3 text-base font-medium text-[#957845]"
+            class="mt-0 min-h-2 text-base font-medium text-[#957845]"
             [class.text-error]="userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid"
             [class.invisible]="!(userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid)"
           >
@@ -62,8 +62,8 @@
           </p>
         </fieldset>
 
-        <fieldset class="mb-5">
-          <legend class="mb-4 text-base font-semibold uppercase tracking-widest text-[#957845]">Correo</legend>
+        <fieldset class="mb-0">
+          <legend class="mb-0 text-base font-semibold uppercase tracking-widest text-[#957845]">Correo</legend>
           <input
             id="email"
             type="email"
@@ -73,7 +73,7 @@
             [class.input-error]="userForm.controls.email.touched && userForm.controls.email.invalid"
           />
           <p
-            class="mt-1 min-h-3 text-base font-medium text-[#957845]"
+            class="mt-0 min-h-2 text-base font-medium text-[#957845]"
             [class.text-error]="userForm.controls.email.touched && userForm.controls.email.invalid"
             [class.invisible]="!(userForm.controls.email.touched && userForm.controls.email.invalid)"
           >
@@ -81,8 +81,8 @@
           </p>
         </fieldset>
 
-        <fieldset class="mb-5">
-          <legend class="mb-4 text-base font-semibold uppercase tracking-widest text-[#957845]">Telefono</legend>
+        <fieldset class="mb-0">
+          <legend class="mb-0 text-base font-semibold uppercase tracking-widest text-[#957845]">Telefono</legend>
           <input
             id="numberPhone"
             type="tel"
@@ -92,7 +92,7 @@
             [class.input-error]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
           />
           <p
-            class="mt-1 min-h-3 text-base font-medium text-[#957845]"
+            class="mt-0 min-h-2 text-base font-medium text-[#957845]"
             [class.text-error]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
             [class.invisible]="!(userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid)"
           >
@@ -100,8 +100,8 @@
           </p>
         </fieldset>
 
-        <fieldset class="mb-5">
-          <legend class="mb-4 text-base font-semibold uppercase tracking-widest text-[#957845]">¿Restriccion alimentaria?</legend>
+        <fieldset class="mb-0">
+          <legend class="mb-0 text-base font-semibold uppercase tracking-widest text-[#957845]">¿Restriccion alimentaria?</legend>
           <select
             id="restriccion"
             formControlName="restriccion"
@@ -116,7 +116,7 @@
             <option value="Otro" class="text-base">Otro</option>
           </select>
           <p
-            class="mt-1 min-h-3 text-base font-medium text-[#957845]"
+            class="mt-0 min-h-2 text-base font-medium text-[#957845]"
             [class.text-error]="userForm.controls.restriccion.touched && userForm.controls.restriccion.invalid"
             [class.invisible]="!(userForm.controls.restriccion.touched && userForm.controls.restriccion.invalid)"
           >
@@ -124,8 +124,8 @@
           </p>
         </fieldset>
 
-        <fieldset *ngIf="isOtroSelected()" class="mb-5">
-          <legend class="mb-4 text-base font-semibold uppercase tracking-widest text-[#957845]">Especifica tu restriccion</legend>
+        <fieldset *ngIf="isOtroSelected()" class="mb-0">
+          <legend class="mb-0 text-base font-semibold uppercase tracking-widest text-[#957845]">Especifica tu restriccion</legend>
           <input
             id="restriccionOtro"
             type="text"
@@ -135,8 +135,8 @@
           />
         </fieldset>
 
-        <fieldset class="mb-5">
-          <legend class="mb-4 text-base font-semibold uppercase tracking-widest text-[#957845]">Mensaje</legend>
+        <fieldset class="mb-0">
+          <legend class="mb-0 text-base font-semibold uppercase tracking-widest text-[#957845]">Mensaje</legend>
           <textarea
             id="message"
             formControlName="message"
@@ -150,7 +150,7 @@
             {{ userForm.controls.message.value.length }}/200
           </p>
           <p
-            class="mt-1 min-h-3 text-base font-medium text-[#957845]"
+            class="mt-0 min-h-2 text-base font-medium text-[#957845]"
             [class.text-error]="userForm.controls.message.touched && userForm.controls.message.invalid"
             [class.invisible]="!(userForm.controls.message.touched && userForm.controls.message.invalid)"
           >
