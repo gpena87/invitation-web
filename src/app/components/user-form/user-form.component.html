@@ -68,7 +68,7 @@
             id="email"
             type="email"
             formControlName="email"
-            placeholder="correo@ejemplo.com"
+            placeholder="correo@ejemplo.com (opcional)"
             class="input w-full bg-white/25 focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
             [class.input-error]="userForm.controls.email.touched && userForm.controls.email.invalid"
           />
@@ -87,7 +87,7 @@
             id="numberPhone"
             type="tel"
             formControlName="numberPhone"
-            placeholder="999 999 999"
+            placeholder="999 999 999 (opcional)"
             class="input w-full bg-white/25 focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
             [class.input-error]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
           />
@@ -140,7 +140,7 @@
           <textarea
             id="message"
             formControlName="message"
-            placeholder="Escribe tu mensaje..."
+            placeholder="Escribe tu mensaje... (opcional)"
             rows="4"
             maxlength="200"
             class="textarea w-full bg-white/25 leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
