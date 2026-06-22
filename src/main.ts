@@ -12,13 +12,28 @@ const hideStartupLoader = () => {
   window.setTimeout(() => loader.remove(), 280);
 };
 
-bootstrapApplication(App, appConfig)
-  .then(() => {
+const waitForCompleteLoad = () => {
+  return new Promise<void>((resolve) => {
+    // Si ya está completamente cargado
     if (document.readyState === 'complete') {
-      hideStartupLoader();
+      resolve();
       return;
     }
 
-    window.addEventListener('load', hideStartupLoader, { once: true });
+    // Esperar a que el documento esté completamente listo
+    window.addEventListener('load', () => {
+      // Esperar un poco más para asegurar que todo se renderizó
+      setTimeout(() => {
+        resolve();
+      }, 2000);
+    }, { once: true });
+  });
+};
+
+bootstrapApplication(App, appConfig)
+  .then(async () => {
+    // Esperar a que el DOM y recursos estén completamente listos
+    await waitForCompleteLoad();
+    hideStartupLoader();
   })
   .catch((err) => console.error(err));

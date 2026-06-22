@@ -19,12 +19,17 @@
       content: "";
       position: fixed;
       inset: 0;
-      background-image: url('/assets/branding/fondo02-cel-scaled.jpg');
+      background-image: url('/assets/branding/Designer2.png');
       background-size: cover;
       background-position: center top;
       background-repeat: no-repeat;
       z-index: 0;
       pointer-events: none;
+    }
+    @media (min-width: 1024px) {
+      body::before {
+        background-image: url('/assets/branding/Designer1.png');
+      }
     }
     body > app-root {
       position: relative;
