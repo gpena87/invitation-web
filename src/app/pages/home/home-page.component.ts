@@ -10,12 +10,13 @@ import { ItineraryComponent } from '../../components/itinerary/itinerary.compone
 import { DressCodeComponent } from '../../components/dress-code/dress-code.component';
 import { GalleryComponent } from "../../components/gallery/gallery.component";
 import { RevealOnScrollDirective } from '../../directives/reveal-on-scroll.directive';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   templateUrl: './home-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [UserMusicComponent, UserFormComponent, HeaderComponent, GiftComponent, CountdownComponent, MapsComponent, StartComponent, ItineraryComponent, DressCodeComponent, GalleryComponent, RevealOnScrollDirective],
+  imports: [UserMusicComponent, UserFormComponent, HeaderComponent, GiftComponent, CountdownComponent, MapsComponent, StartComponent, ItineraryComponent, DressCodeComponent, GalleryComponent, RevealOnScrollDirective, FooterComponent],
 })
 export default class HomePage {}

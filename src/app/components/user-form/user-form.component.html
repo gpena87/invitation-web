@@ -11,12 +11,13 @@
             type="text"
             formControlName="name"
             placeholder="Ej. Ana"
-            class="input w-full bg-white/25 focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
-            [class.input-error]="userForm.controls.name.touched && userForm.controls.name.invalid"
+            class="w-full rounded-xl border border-[#957845]/35 bg-white/40 px-4 py-3 text-[#6f5735] placeholder:text-[#957845]/60 transition focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
+            [class.border-red-500]="userForm.controls.name.touched && userForm.controls.name.invalid"
+            [class.ring-red-200]="userForm.controls.name.touched && userForm.controls.name.invalid"
           />
           <p
             class="mt-0 min-h-0 text-base font-medium text-[#957845]"
-            [class.text-error]="userForm.controls.name.touched && userForm.controls.name.invalid"
+            [class.text-red-600]="userForm.controls.name.touched && userForm.controls.name.invalid"
             [class.invisible]="!(userForm.controls.name.touched && userForm.controls.name.invalid)"
           >
             Ingresa un nombre valido.
@@ -29,12 +30,13 @@
             type="text"
             formControlName="lastName"
             placeholder="Ej. Perez"
-            class="input w-full bg-white/25 focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
-            [class.input-error]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
+            class="w-full rounded-xl border border-[#957845]/35 bg-white/40 px-4 py-3 text-[#6f5735] placeholder:text-[#957845]/60 transition focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
+            [class.border-red-500]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
+            [class.ring-red-200]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
           />
           <p
             class="mt-0 min-h-2 text-base font-medium text-[#957845]"
-            [class.text-error]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
+            [class.text-red-600]="userForm.controls.lastName.touched && userForm.controls.lastName.invalid"
             [class.invisible]="!(userForm.controls.lastName.touched && userForm.controls.lastName.invalid)"
           >
             Ingresa un apellido valido.
@@ -46,8 +48,9 @@
           <select
             id="confirmation"
             formControlName="confirmation"
-            class="select w-full bg-white/25 text-base focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
-            [class.select-error]="userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid"
+            class="w-full appearance-none rounded-xl border border-[#957845]/35 bg-white/40 px-4 py-3 text-base text-[#6f5735] transition focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
+            [class.border-red-500]="userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid"
+            [class.ring-red-200]="userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid"
           >
             <option value="" disabled class="text-base">Selecciona una opción</option>
             <option value="true" class="text-base">Sí</option>
@@ -55,7 +58,7 @@
           </select>
           <p
             class="mt-0 min-h-2 text-base font-medium text-[#957845]"
-            [class.text-error]="userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid"
+            [class.text-red-600]="userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid"
             [class.invisible]="!(userForm.controls.confirmation.touched && userForm.controls.confirmation.invalid)"
           >
             Selecciona una opcion.
@@ -69,12 +72,13 @@
             type="email"
             formControlName="email"
             placeholder="correo@ejemplo.com (opcional)"
-            class="input w-full bg-white/25 focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
-            [class.input-error]="userForm.controls.email.touched && userForm.controls.email.invalid"
+            class="w-full rounded-xl border border-[#957845]/35 bg-white/40 px-4 py-3 text-[#6f5735] placeholder:text-[#957845]/60 transition focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
+            [class.border-red-500]="userForm.controls.email.touched && userForm.controls.email.invalid"
+            [class.ring-red-200]="userForm.controls.email.touched && userForm.controls.email.invalid"
           />
           <p
             class="mt-0 min-h-2 text-base font-medium text-[#957845]"
-            [class.text-error]="userForm.controls.email.touched && userForm.controls.email.invalid"
+            [class.text-red-600]="userForm.controls.email.touched && userForm.controls.email.invalid"
             [class.invisible]="!(userForm.controls.email.touched && userForm.controls.email.invalid)"
           >
             Ingresa un correo valido.
@@ -88,12 +92,13 @@
             type="tel"
             formControlName="numberPhone"
             placeholder="999 999 999 (opcional)"
-            class="input w-full bg-white/25 focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
-            [class.input-error]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
+            class="w-full rounded-xl border border-[#957845]/35 bg-white/40 px-4 py-3 text-[#6f5735] placeholder:text-[#957845]/60 transition focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
+            [class.border-red-500]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
+            [class.ring-red-200]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
           />
           <p
             class="mt-0 min-h-2 text-base font-medium text-[#957845]"
-            [class.text-error]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
+            [class.text-red-600]="userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid"
             [class.invisible]="!(userForm.controls.numberPhone.touched && userForm.controls.numberPhone.invalid)"
           >
             Ingresa un numero de telefono valido.
@@ -105,8 +110,9 @@
           <select
             id="restriccion"
             formControlName="restriccion"
-            class="select w-full bg-white/25 text-base focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
-            [class.select-error]="userForm.controls.restriccion.touched && userForm.controls.restriccion.invalid"
+            class="w-full appearance-none rounded-xl border border-[#957845]/35 bg-white/40 px-4 py-3 text-base text-[#6f5735] transition focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
+            [class.border-red-500]="userForm.controls.restriccion.touched && userForm.controls.restriccion.invalid"
+            [class.ring-red-200]="userForm.controls.restriccion.touched && userForm.controls.restriccion.invalid"
           >
             <option value="" disabled class="text-base">Selecciona una opción</option>
             <option value="No" class="text-base">No</option>
@@ -117,7 +123,7 @@
           </select>
           <p
             class="mt-0 min-h-2 text-base font-medium text-[#957845]"
-            [class.text-error]="userForm.controls.restriccion.touched && userForm.controls.restriccion.invalid"
+            [class.text-red-600]="userForm.controls.restriccion.touched && userForm.controls.restriccion.invalid"
             [class.invisible]="!(userForm.controls.restriccion.touched && userForm.controls.restriccion.invalid)"
           >
             Selecciona una opcion.
@@ -131,7 +137,7 @@
             type="text"
             formControlName="restriccionOtro"
             placeholder="Ej. Sin gluten, sin lactosa..."
-            class="input w-full bg-white/25 focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
+            class="w-full rounded-xl border border-[#957845]/35 bg-white/40 px-4 py-3 text-[#6f5735] placeholder:text-[#957845]/60 transition focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
           />
         </fieldset>
 
@@ -143,15 +149,16 @@
             placeholder="Escribe tu mensaje... (opcional)"
             rows="4"
             maxlength="200"
-            class="textarea w-full bg-white/25 leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
-            [class.input-error]="userForm.controls.message.touched && userForm.controls.message.invalid"
+            class="w-full rounded-xl border border-[#957845]/35 bg-white/40 px-4 py-3 leading-relaxed text-[#6f5735] placeholder:text-[#957845]/60 transition focus:outline-none focus:ring-2 focus:ring-[#957845]/20"
+            [class.border-red-500]="userForm.controls.message.touched && userForm.controls.message.invalid"
+            [class.ring-red-200]="userForm.controls.message.touched && userForm.controls.message.invalid"
           ></textarea>
           <p class="mt-1 text-center text-base text-[#957845]">
             {{ userForm.controls.message.value.length }}/200
           </p>
           <p
             class="mt-0 min-h-2 text-base font-medium text-[#957845]"
-            [class.text-error]="userForm.controls.message.touched && userForm.controls.message.invalid"
+            [class.text-red-600]="userForm.controls.message.touched && userForm.controls.message.invalid"
             [class.invisible]="!(userForm.controls.message.touched && userForm.controls.message.invalid)"
           >
             Ingresa un mensaje valido.
@@ -164,28 +171,25 @@
             class="rounded-full bg-[#957845] px-8 py-3 text-center text-base font-medium uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#7d5f35] hover:shadow-lg shadow-md disabled:cursor-not-allowed disabled:opacity-60"
             [disabled]="userForm.invalid || isSubmitting()"
           >
-            <span *ngIf="isSubmitting()" class="loading loading-spinner loading-sm mr-2"></span>
+            <span *ngIf="isSubmitting()" class="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white align-[-2px]"></span>
             {{ isSubmitting() ? 'Enviando...' : 'Enviar Confirmación' }}
           </button>
         </div>
 
       </form>
 
-      <div *ngIf="errorMessage()" class="alert alert-error mt-4">
+      <div *ngIf="errorMessage()" class="mt-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
         <span>{{ errorMessage() }}</span>
       </div>
 
-      <dialog class="modal" [open]="isSuccessModalOpen()">
-        <div class="modal-box">
-          <h3 class="text-xl font-bold">Registro completado</h3>
-          <p class="py-3">{{ successMessage() }}</p>
-          <div class="modal-action">
-            <button type="button" class="btn btn-success" (click)="closeSuccessPopup()">Aceptar</button>
+      <div *ngIf="isSuccessModalOpen()" class="fixed inset-0 z-50 flex items-center justify-center bg-black/35 p-4 backdrop-blur-sm">
+        <div class="w-full max-w-md rounded-2xl bg-white p-6 text-left shadow-2xl">
+          <h3 class="text-xl font-bold text-[#6f5735]">Registro completado</h3>
+          <p class="py-3 text-[#7c6541]">{{ successMessage() }}</p>
+          <div class="mt-3 flex justify-end">
+            <button type="button" class="rounded-full bg-emerald-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-emerald-700" (click)="closeSuccessPopup()">Aceptar</button>
           </div>
         </div>
-        <form method="dialog" class="modal-backdrop">
-          <button type="button" (click)="closeSuccessPopup()">close</button>
-        </form>
-      </dialog>
+      </div>
     </div>
 </section>
